@@ -1,0 +1,44 @@
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<mat-toolbar>
+  <mat-toolbar-row>FHIR Viewer</mat-toolbar-row>
+  <mat-toolbar-row>
+    <mat-toolbar-row>
+      <button mat-icon-button>
+        <mat-icon (click)="selectHome()">home</mat-icon>
+      </button>
+      <button mat-icon-button>
+        <mat-icon (click)="selectContext()">folder</mat-icon>
+      </button>
+    </mat-toolbar-row>
+    <mat-toolbar-row  *ngIf="isReady()">
+      <button mat-icon-button>
+        <mat-icon (click)="selectPatient()">people</mat-icon>
+      </button>
+      <div *ngIf="hasCurrentPatient()">Patient:{{getCurrentPatientString()}}</div>
+      <button mat-button *ngIf="hasCurrentPatient()" matSuffix mat-icon-button aria-label="Clear"  (click)="clearPatient()"><mat-icon>close</mat-icon></button>
+    </mat-toolbar-row>
+    <mat-toolbar-row>
+      <button mat-icon-button>
+        <mat-icon (click)="selectBack()">arrow_back</mat-icon>
+      </button>
+    </mat-toolbar-row>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<div *ngIf="showSpinner">
+  <mat-progress-spinner color="primary" mode="indeterminate">
+  </mat-progress-spinner>
+</div>
+<div *ngIf="!showSpinner">
+  <div *ngIf="isServerKnown()" >
+    <app-fhir-server-selector></app-fhir-server-selector>
+  </div>
+  <div *ngIf="isLaunching()" >
+    Launching
+  </div>
+  <div *ngIf="isReady()" >
+    <router-outlet></router-outlet>
+  </div>
+
+</div>
