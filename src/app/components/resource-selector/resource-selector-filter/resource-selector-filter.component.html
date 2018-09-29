@@ -1,0 +1,15 @@
+<span ngSwitch="{{resourceType}}">
+  <mat-slide-toggle *ngIf="supportsPatientSearch" [checked]="true" (change)="patientSearchChange($event)">Current Patient</mat-slide-toggle>
+  <div *ngSwitchCase="'PlanDefinition'">
+    <cancel-button [id]="'name'" [description]="'PlanDefinition name'" (filterParam)="buttonEvent($event)" ></cancel-button>
+  </div>
+  <div *ngSwitchCase="'Patient'">
+    <cancel-button [id]="'name'" [description]="'Patient name'" (filterParam)="buttonEvent($event)" ></cancel-button>
+  </div>
+  <div *ngSwitchCase="'Questionnaire'">
+    <cancel-button [id]="'title'" [description]="'Start of title'" (filterParam)="buttonEvent($event)" ></cancel-button>
+  </div>
+  <div *ngSwitchDefault>
+    <!--<ngx-json-viewer [json]="resource"></ngx-json-viewer>-->
+  </div>
+</span>

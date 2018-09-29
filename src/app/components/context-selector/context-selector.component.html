@@ -1,0 +1,7 @@
+<div *ngIf="contextId && resource" >
+  <app-resource-display [resource]=(resource) ></app-resource-display>
+</div>
+<div *ngIf="!contextId && bundle">
+  <app-resource-display [resource]=bundle ></app-resource-display>
+</div>
+<div *ngIf="!resource && !bundle">No context data</div>

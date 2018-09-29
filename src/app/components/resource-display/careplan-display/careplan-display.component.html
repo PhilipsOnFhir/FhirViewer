@@ -1,0 +1,42 @@
+<mat-tab-group>
+  <mat-tab label="nice">
+    <table>
+      <tr><td>title</td><td>{{title}}</td></tr>
+      <tr><td>status</td><td>{{status}}</td></tr>
+      <tr><td>description</td><td>{{description}}</td></tr>
+      <tr><td>subject</td><td>
+        <app-resource-viewer [resource]="subject"></app-resource-viewer>
+      </td></tr>
+      <tr><td>context</td><td>
+        <app-resource-viewer [resource]="context"></app-resource-viewer>
+      </td></tr>
+      <tr><td>definition</td><td>
+      <app-resource-viewer *ngFor="let res of definition" [resource]="res"></app-resource-viewer>
+      </td></tr>
+      <tr><td>based on</td><td>
+        <app-resource-viewer *ngFor="let res of basedOn" [resource]="res"></app-resource-viewer>
+      </td></tr>
+      <tr><td>Replaces</td><td>
+        <app-resource-viewer *ngFor="let res of replaces" [resource]="res"></app-resource-viewer>
+      </td></tr>
+    </table>
+    <mat-divider></mat-divider>
+
+    <div *ngFor="let activity of careplan.activity">
+      <mat-divider></mat-divider>
+      <app-careplan-activity-display [activity]=activity ></app-careplan-activity-display>
+    </div>
+    <mat-divider></mat-divider>
+    <app-annotation-display [annotations]=careplan.note (annotationMonitor)="annotationUpdate($event)"></app-annotation-display>
+
+  </mat-tab>
+  <mat-tab label="normal">
+    <app-fhir-element [element]="resource"></app-fhir-element>
+  </mat-tab>
+  <mat-tab label="json">
+    <ngx-json-viewer [json]="resource"></ngx-json-viewer>
+  </mat-tab>
+</mat-tab-group>
+<mat-divider></mat-divider>
+<button mat-raised-button (click)="updateClick()">update</button>
+

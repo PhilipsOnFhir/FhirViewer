@@ -1,0 +1,9 @@
+<mat-tab-group>
+  <mat-tab label="normal">
+    <app-fhir-element [element]="resource" [library]="library"></app-fhir-element>
+  </mat-tab>
+  <mat-tab label="json">
+    <!--<ngx-json-viewer [json]="resource"></ngx-json-viewer>-->
+    {{getJson()}}
+  </mat-tab>
+</mat-tab-group>

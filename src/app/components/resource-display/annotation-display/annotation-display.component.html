@@ -1,0 +1,15 @@
+<table>
+  <tr><th>date</th><th>author</th><th>text</th></tr>
+  <tr *ngFor="let a of annotations"><td>{{a.time}}</td><td>{{a.author}}</td><td>{{a.text}}</td></tr>
+  <tr>
+    <td>{{annotation.time}}</td>
+    <td>{{annotation.authorString}}</td>
+    <td>
+      <mat-form-field>
+        <!--<textarea matInput placeholder="Autosize textarea" matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="5"></textarea>-->
+        <textarea matInput  matTextareaAutosize matAutosizeMinRows="1" matAutosizeMaxRows="8" [(ngModel)]="value" (ngModelChange)="valueChange($event)"></textarea>
+      </mat-form-field>
+    </td>
+  </tr>
+</table>
+
