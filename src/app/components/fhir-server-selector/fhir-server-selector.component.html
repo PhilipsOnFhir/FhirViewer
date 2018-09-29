@@ -1,0 +1,20 @@
+<h1>Select FHIR Server</h1>
+<table>
+  <tr *ngFor="let fs of fhirServers">
+    <td>
+      <button mat-button (click)="selectFhirServer(fs)">{{fs}}</button>
+    </td>
+    <td>
+      <button mat-button matSuffix mat-icon-button aria-label="Clear"  (click)="clearFhirServer(fs)"><mat-icon>close</mat-icon>
+      </button>
+    </td>
+  </tr>
+</table>
+<mat-divider></mat-divider>
+<h3>Add FhirServer</h3>
+  <form>
+    <mat-form-field>
+      <input matInput placeholder="FHIR server url" type="url"  [(ngModel)]="newFhirServer"
+             (keyup.enter)="addFhirServer()" [ngModelOptions]="{standalone: true}" >
+    </mat-form-field>
+  </form>

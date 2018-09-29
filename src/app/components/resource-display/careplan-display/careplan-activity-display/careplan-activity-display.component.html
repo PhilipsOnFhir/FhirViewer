@@ -1,0 +1,43 @@
+<mat-expansion-panel [expanded]="1===1">
+  <mat-expansion-panel-header >
+    <mat-panel-title>
+      <b>Activity</b>
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+  <!--<annotation></annotation>-->
+  <table>
+    <tr><td>status</td><td>{{status}}</td></tr>
+    <tr *ngIf="activity.detail && activity.detail.code"><td>detail</td><td>{{activity.detail.code.coding[0].display}}</td></tr>
+  </table>
+
+  <div *ngIf="activity.outcomeReference">
+    <h4>Outcome</h4>
+    <app-resource-accordian *ngFor="let outCR of outcomes" [resource]=outCR ></app-resource-accordian>
+    <!--<app-resource-viewer *ngFor="let outCR of activity.outcomeReference" [resource]=outCR></app-resource-viewer>-->
+  </div>
+  <mat-divider></mat-divider>
+  <p></p>
+  <div *ngIf="referencedResource">
+    <h4>References</h4>
+    <div ngSwitch="{{referencedResource.resourceType}}">
+      <div *ngSwitchCase="'RequestGroup'">
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <b>{{referencedResource.resourceType}} : </b>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <app-request-group-display
+            *ngSwitchCase="'RequestGroup'"
+            [resource]="referencedResource"
+            (outputUpdate)="updateResult($event)"
+          ></app-request-group-display>
+        </mat-expansion-panel>
+      </div>
+      <div *ngSwitchDefault>
+        <app-resource-accordian [resource]=referencedResource (outputUpdate)="updateResult($event)" ></app-resource-accordian>
+      </div>
+    <!--(outputUpdate)="updateResult($event)"-->
+    </div>
+  </div>
+</mat-expansion-panel>

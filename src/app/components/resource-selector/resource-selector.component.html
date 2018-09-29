@@ -1,0 +1,15 @@
+<h2>List of {{resourceType}}</h2>
+<mat-divider></mat-divider>
+<app-resource-selector-filter [resourceType]="resourceType" (searchString)="search($event)"></app-resource-selector-filter>
+
+<button *ngIf="resourceType==='Patient'" mat-raised-button (click)="getEverything()">retrieve all data</button>
+<button *ngIf="resourceType==='Patient'" mat-raised-button (click)="doExport()">export all data</button>
+
+<div *ngIf=!resource>
+  <mat-progress-spinner
+    color="primary"
+    mode="indeterminate">
+  </mat-progress-spinner>
+</div>
+
+<app-resource-display *ngIf="resource" [resource]="resource"></app-resource-display>

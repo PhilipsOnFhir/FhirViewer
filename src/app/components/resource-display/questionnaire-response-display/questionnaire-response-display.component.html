@@ -1,0 +1,52 @@
+
+<mat-tab-group>
+  <mat-tab label="nice">
+    <div *ngIf="questionnaire">
+      <h2>{{title}}</h2>
+      <p *ngIf="questionnaire.description">{{questionnaire.description}}</p>
+      <table>
+      <tr>
+      <td>status</td><td>{{questionnaire.status}}</td>
+      </tr>
+      </table>
+    <mat-divider></mat-divider>
+    <app-questionnaire-display-item *ngFor="let itemData of itemDatas"
+                                    [questionnaireResponseItem]="itemData.questionnaireResponseItem"
+                                    [questionnaireItem]="itemData.questionnaireItem"
+                                    (update)="updateValue($event)">
+
+    </app-questionnaire-display-item>
+    <mat-divider></mat-divider>
+    <div *ngIf="questionnaire.extension">
+      <button mat-button [disabled]="isRetrieving()" (click)="performTransforms()">Transform</button>
+      <table *ngFor="let es of extSm">
+        <tr *ngIf="es.extension.url === 'http://hl7.org/fhir/StructureDefinition/questionnaire-targetStructureMap'">
+          <td>{{es.extension.valueReference.reference}}</td>
+          <td >
+            <app-resource-viewer *ngIf="es.resource" [resource]="es.resource"></app-resource-viewer>
+            <mat-spinner *ngIf="es.retreiveActive" [diameter]="30"></mat-spinner>
+            <!--<app-fhir-element [element]=es.resource></app-fhir-element>-->
+          </td>
+        </tr>
+      </table>
+    </div>
+    </div>
+  </mat-tab>
+      <!--<div *ngFor="let e of extSm">-->
+        <!--&lt;!&ndash;<p>extension detected {{extension.url}}</p>&ndash;&gt;-->
+        <!--<div *ngIf="ext.extension.url === 'http://hl7.org/fhir/StructureDefinition/questionnaire-targetStructureMap'">-->
+          <!--&lt;!&ndash;<button mat-button (click)="performTransform(extension)">{{extension.valueReference.reference}} </button>&ndash;&gt;-->
+          <!---->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
+  <mat-tab label="normal">
+    <app-fhir-element [element]="resource"></app-fhir-element>
+  </mat-tab>
+  <mat-tab label="json">
+    <ngx-json-viewer [json]="resource"></ngx-json-viewer>
+  </mat-tab>
+  <mat-tab label="plan-json">
+    {{plainJson}}
+  </mat-tab>
+</mat-tab-group>

@@ -1,0 +1,7 @@
+<button mat-raised-button (click)="doExport()">retrieve all data</button>
+<mat-divider></mat-divider>
+<mat-grid-list *ngIf="resourceTypes.length>0" cols="6" rowHeight="50px">
+  <mat-grid-tile *ngFor="let rt of resourceTypes" [colspan]="1" [rowspan]="1" >
+    <button mat-button (click)="selectResourceType(rt)">{{rt}}</button>
+  </mat-grid-tile>
+</mat-grid-list>
