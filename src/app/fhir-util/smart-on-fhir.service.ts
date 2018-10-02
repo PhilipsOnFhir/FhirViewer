@@ -331,7 +331,9 @@ export class SmartOnFhirService   {
   }
 
 
-
+  isInitialized() {
+    return this.availableAndReady;
+  }
 }
 
 class TokenResponse {

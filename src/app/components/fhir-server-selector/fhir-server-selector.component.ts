@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from "@angular/router";
-import {st} from "@angular/core/src/render3";
+import {Router} from '@angular/router';
+import {st} from '@angular/core/src/render3';
+import {SmartOnFhirService} from '../../fhir-util/smart-on-fhir.service';
 
 @Component({
   selector: 'app-fhir-server-selector',
@@ -9,9 +10,9 @@ import {st} from "@angular/core/src/render3";
 })
 export class FhirServerSelectorComponent implements OnInit {
   private fhirServers = new Set<string>();
-  newFhirServer: string = "";
+  newFhirServer = '';
 
-  constructor( private router: Router ) { }
+  constructor( private router: Router, private sofs: SmartOnFhirService ) { }
 
   ngOnInit() {
     // let storedServers = JSON.parse( window.localStorage.getItem("fhirServers") );
@@ -27,27 +28,40 @@ export class FhirServerSelectorComponent implements OnInit {
     // console.log(this.fhirServers);
   }
 
-  storeFhirServers(){
-    let storedServers :string[] = new Array(0);
+  storeFhirServers() {
+    const storedServers: string[] = new Array(0);
     this.fhirServers.forEach( fs => storedServers.push(fs));
-    let str : string = JSON.stringify(storedServers);
-    window.localStorage.setItem("fhirServers", str );
+    const str: string = JSON.stringify(storedServers);
+    window.localStorage.setItem('fhirServers', str );
   }
 
-  retrieveFhirServers(){
-    let storedServers :string[] = JSON.parse( window.localStorage.getItem("fhirServers") );
+  retrieveFhirServers(  ) {
+    const storedServers: string[] = JSON.parse( window.localStorage.getItem('fhirServers') );
     // console.log(storedServers);
-    if ( storedServers ){
+    if ( storedServers ) {
       storedServers.forEach( fs => this.fhirServers.add(fs));
     }
   }
 
   selectFhirServer(fs: string) {
     console.log( this.router.url );
-    let url = this.router.url+"fhir/?fs="+fs;
-    console.log( "open "+url);
-    // this.router.navigateByUrl(url);
-    window.open(url);
+//    let url = this.router.url+"/fhir/?fs="+fs;
+    const url = this.router.url + '/fhir/?fs=' + fs;
+    console.log( 'open ' + url);
+
+    this.sofs.initialize( fs, '' ).subscribe(
+      data => console.log(data),
+      error => {
+        console.log(error);
+      },
+      () => {
+        console.log('initialisation ready');
+        this.router.navigate( ['fhir'] , { queryParams: { fs: fs } });
+      }
+    );
+
+  //  this.router.navigateByUrl(url);
+    // window.open(url);
   }
 
   clearFhirServer(fs: string) {

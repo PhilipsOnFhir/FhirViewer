@@ -1,4 +1,31 @@
-<p>
-  measure-display works!
-</p>
+<mat-form-field>
+  <input matInput [matDatepicker]="picker1" placeholder="Start date" (dateInput)="startDateEvent('input', $event)" (dateChange)="startDateEvent('change', $event)">
+  <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+  <mat-datepicker #picker1 [startAt]="startDate"></mat-datepicker>
+</mat-form-field>
+
+<mat-form-field>
+  <input matInput [matDatepicker]="picker2" placeholder="End date" (dateInput)="endDateEvent('input', $event)" (dateChange)="endDateEvent('change', $event)">
+  <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+  <mat-datepicker #picker2 [startAt]="endDate"></mat-datepicker>
+</mat-form-field>
+
+<mat-form-field>
+  <mat-select placeholder="Report Type" [(value)]="reportType" (valueChange)="reportTypeEvent($event)">
+    <mat-option *ngFor="let rt of reportTypes" [value]="rt">
+      {{rt}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<!--{{startDate}}{{endDate}}-->
+<button mat-raised-button (click)="evaluate()">evaluate</button>
+
+{{error}}
+<!--<mat-form-field>-->
+  <!--<input matInput [matDatepicker]="picker" placeholder="End date">-->
+  <!--<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>-->
+  <!--<mat-datepicker #picker></mat-datepicker>-->
+<!--</mat-form-field>-->
+
 <app-generic-display [resource]="resource"></app-generic-display>

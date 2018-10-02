@@ -3,7 +3,7 @@ import {NgModule} from '@angular/core';
 
 import {AppComponent} from './app.component';
 import {SmartOnFhirService} from "./fhir-util/smart-on-fhir.service";
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {RouterModule, Routes} from "@angular/router";
 import {ResourceSelectorComponent} from './components/resource-selector/resource-selector.component';
 import {ResourceDisplayComponent} from './components/resource-display/resource-display.component';
@@ -36,14 +36,16 @@ import {CareplanActivityDisplayComponent} from "./components/resource-display/ca
 import {ActivityDefinitionDisplayComponent} from './components/resource-display/activity-definition-display/activity-definition-display.component';
 import {AsyncSessionComponentComponent} from './components/async-session-component/async-session-component.component';
 import {GroupDisplayComponent} from './components/resource-display/group-display/group-display.component';
+// import {EpicHttpInterceptor} from './interceptor/http-interceptor.service';
 
 const appRoutes: Routes = [
+  { path: 'select', component: FhirServerSelectorComponent },
   { path: 'context', component: ContextSelectorComponent },
   { path: 'context/:contextId', component: ContextSelectorComponent },
   { path: 'fhir', component: ResourceOverviewComponent },
   { path: 'fhir/:resourceType', component: ResourceSelectorComponent },
-  {path: 'fhir/:resourceType/:resourceId', component: ResourceDisplayLoaderComponent},
-  {path: 'async', component: AsyncSessionComponentComponent}
+  { path: 'fhir/:resourceType/:resourceId', component: ResourceDisplayLoaderComponent},
+  { path: 'async', component: AsyncSessionComponentComponent}
 ];
 
 @NgModule({
@@ -92,7 +94,12 @@ const appRoutes: Routes = [
   ],
   providers: [
     SmartOnFhirService,
-    ContextService
+    ContextService,
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: EpicHttpInterceptor,
+    //   multi: true,
+    // }
   ],
   bootstrap: [AppComponent]
 })

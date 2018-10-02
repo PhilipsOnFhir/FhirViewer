@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {SmartOnFhirService} from "./fhir-util/smart-on-fhir.service";
-import {CurrentPatientService} from "./services/current-patient.service";
-import {Patient} from "./fhir/dstu3/Patient";
-import {ActivatedRoute, Router} from "@angular/router";
-import {PatientUtil} from "./fhir-util/dstu3-util/patient-util";
-import {Location} from "@angular/common";
+import {SmartOnFhirService} from './fhir-util/smart-on-fhir.service';
+import {CurrentPatientService} from './services/current-patient.service';
+import {Patient} from './fhir/dstu3/Patient';
+import {ActivatedRoute, Router} from '@angular/router';
+import {PatientUtil} from './fhir-util/dstu3-util/patient-util';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -13,11 +13,11 @@ import {Location} from "@angular/common";
 })
 export class AppComponent implements  OnInit {
   //availableAndReady: boolean = false;
-  showSpinner:boolean = true;
-  private appState : AppStateEnum = AppStateEnum.SERVER_UNKNOWN;
+  showSpinner = true;
+  private appState: AppStateEnum = AppStateEnum.SERVER_UNKNOWN;
 
   constructor(
-    private sofs : SmartOnFhirService,
+    private sofs: SmartOnFhirService,
     private currentPatientService: CurrentPatientService,
     private route: ActivatedRoute,
     private router: Router,
@@ -25,14 +25,14 @@ export class AppComponent implements  OnInit {
   ) {
     this.router.routeReuseStrategy.shouldReuseRoute = function () {
       return false;
-    }
+    };
   }
 
   ngOnInit(): void {
-    let path = this._AcLocation.path();
+    const path = this._AcLocation.path();
     console.log(path);
 
-    let pathSegments: string[] = new Array(0);
+    const pathSegments: string[] = new Array(0);
     if ( this.router.parseUrl(path).root.children['primary'] ) {
       this.router.parseUrl(path).root.children['primary'].segments.forEach(a =>
         pathSegments.push(a.path)
@@ -40,7 +40,11 @@ export class AppComponent implements  OnInit {
     }
     console.log(pathSegments);
 
-    let fs    = this.router.parseUrl(path).queryParamMap.get('fs');
+    const fs = this.router.parseUrl(path).queryParamMap.get('fs');
+
+    if ( !fs ){
+      this.router.navigate(['select' ], { queryParamsHandling: 'preserve' });
+    }
 
     this.sofs.initialize( fs, path).subscribe(
       data => console.log(data),
@@ -49,10 +53,10 @@ export class AppComponent implements  OnInit {
         this.appState = AppStateEnum.SERVER_UNKNOWN;
       },
       () => {
-        console.log("initialisation ready")
+        console.log('initialisation ready');
         this.showSpinner = false;
         this.appState = AppStateEnum.READY;
-        this.router.navigate(pathSegments, { queryParams:{fs: this.sofs.getUrl()}} );
+        this.router.navigate(pathSegments, { queryParams: {fs: this.sofs.getUrl()}} );
       }
     );
 
@@ -62,25 +66,25 @@ export class AppComponent implements  OnInit {
   }
 
   hasCurrentPatient(): boolean {
-    let currentPatient:Patient = this.currentPatientService.getPatient();
-    return currentPatient!=null;
+    const currentPatient: Patient = this.currentPatientService.getPatient();
+    return currentPatient != null;
   }
 
   getCurrentPatientString(): string {
-    let currentPatient:Patient = this.currentPatientService.getPatient();
-    let restult: string = ( currentPatient ?  PatientUtil.getPreferredName(currentPatient) : "---" );
+    const currentPatient: Patient = this.currentPatientService.getPatient();
+    const restult: string = ( currentPatient ?  PatientUtil.getPreferredName(currentPatient) : '---' );
     return restult;
   }
 
-  selectPatient(){
-    this.router.navigate(["fhir","Patient"], { queryParamsHandling: 'preserve' });
+  selectPatient() {
+    this.router.navigate(['fhir', 'Patient'], { queryParamsHandling: 'preserve' });
   }
-  clearPatient(){
+  clearPatient() {
     this.currentPatientService.clearPatient();
   }
 
   selectHome() {
-    this.router.navigate(["fhir" ], { queryParamsHandling: 'preserve' });
+    this.router.navigate(['fhir' ], { queryParamsHandling: 'preserve' });
   }
 
   selectBack() {
@@ -88,7 +92,7 @@ export class AppComponent implements  OnInit {
   }
 
   selectContext() {
-    this.router.navigate(["context" ], { queryParamsHandling: 'preserve' });
+    this.router.navigate(['context' ], { queryParamsHandling: 'preserve' });
   }
 
 
@@ -101,7 +105,7 @@ export class AppComponent implements  OnInit {
   }
 
   isReady() {
-    return this.appState === AppStateEnum.READY;
+    return this.sofs.isInitialized();
   }
 }
 
@@ -109,4 +113,4 @@ enum AppStateEnum {
   SERVER_UNKNOWN,
   READY,
   LAUNCHING
-};
+}
