@@ -36,6 +36,7 @@ import {CareplanActivityDisplayComponent} from "./components/resource-display/ca
 import {ActivityDefinitionDisplayComponent} from './components/resource-display/activity-definition-display/activity-definition-display.component';
 import {AsyncSessionComponentComponent} from './components/async-session-component/async-session-component.component';
 import {GroupDisplayComponent} from './components/resource-display/group-display/group-display.component';
+import { OperationOutcomeDisplayComponent } from './components/resource-display/operation-outcome-display/operation-outcome-display.component';
 // import {EpicHttpInterceptor} from './interceptor/http-interceptor.service';
 
 const appRoutes: Routes = [
@@ -78,6 +79,7 @@ const appRoutes: Routes = [
     ActivityDefinitionDisplayComponent,
     AsyncSessionComponentComponent,
     GroupDisplayComponent,
+    OperationOutcomeDisplayComponent,
   ],
   imports: [
     RouterModule.forRoot(

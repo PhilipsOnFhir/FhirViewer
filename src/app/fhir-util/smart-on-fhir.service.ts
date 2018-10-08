@@ -316,7 +316,7 @@ export class SmartOnFhirService   {
     }
 
     return new Observable<DomainResource>( observer =>{
-      observer.error("Reference could nor be retrieved.")
+      observer.error('Reference could nor be retrieved.')
     });
   }
 

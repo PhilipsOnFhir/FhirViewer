@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {DomainResource} from "../../../fhir/dstu3/DomainResource";
+import {DomainResource} from '../../../fhir/dstu3/DomainResource';
 
 @Component({
   selector: 'app-generic-display',
@@ -8,7 +8,7 @@ import {DomainResource} from "../../../fhir/dstu3/DomainResource";
 })
 export class GenericDisplayComponent implements OnInit {
   @Input() resource: DomainResource;
-  @Input() library: boolean
+  @Input() library = false;
 
   constructor() { }
 
