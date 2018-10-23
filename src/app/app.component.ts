@@ -12,7 +12,7 @@ import {Location} from '@angular/common';
   styleUrls: ['./app.component.sass']
 })
 export class AppComponent implements  OnInit {
-  //availableAndReady: boolean = false;
+  // availableAndReady: boolean = false;
   showSpinner = true;
   private appState: AppStateEnum = AppStateEnum.SERVER_UNKNOWN;
 
@@ -40,9 +40,10 @@ export class AppComponent implements  OnInit {
     }
     console.log(pathSegments);
 
-    const fs = this.router.parseUrl(path).queryParamMap.get('fs');
+    const queryParamMap = this.router.parseUrl(path).queryParamMap;
+    const fs = queryParamMap.get('fs');
 
-    if ( !fs ){
+    if ( !fs ) {
       this.router.navigate(['select' ], { queryParamsHandling: 'preserve' });
     }
 
@@ -56,7 +57,9 @@ export class AppComponent implements  OnInit {
         console.log('initialisation ready');
         this.showSpinner = false;
         this.appState = AppStateEnum.READY;
-        this.router.navigate(pathSegments, { queryParams: {fs: this.sofs.getUrl()}} );
+        this.currentPatientService.updateQueryParams( queryParamMap );
+        this.router.navigate(pathSegments, { queryParams: {fs: this.sofs.getUrl(), subject: queryParamMap.get('subject')}} );
+        // this.router.navigate(pathSegments, { queryParams: queryParamMap } );
       }
     );
 
@@ -72,13 +75,14 @@ export class AppComponent implements  OnInit {
 
   getCurrentPatientString(): string {
     const currentPatient: Patient = this.currentPatientService.getPatient();
-    const restult: string = ( currentPatient ?  PatientUtil.getPreferredName(currentPatient) : '---' );
-    return restult;
+    const result: string = ( currentPatient ?  PatientUtil.getPreferredName(currentPatient) : '---' );
+    return result;
   }
 
   selectPatient() {
     this.router.navigate(['fhir', 'Patient'], { queryParamsHandling: 'preserve' });
   }
+
   clearPatient() {
     this.currentPatientService.clearPatient();
   }

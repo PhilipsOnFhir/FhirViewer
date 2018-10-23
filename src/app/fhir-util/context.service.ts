@@ -1,16 +1,16 @@
 import {Injectable} from '@angular/core';
-import {UUID} from "angular2-uuid";
-import {DomainResource} from "../fhir/dstu3/DomainResource";
-import {Bundle} from "../fhir/dstu3/Bundle";
-import {Bundle_Entry} from "../fhir/dstu3/Bundle_Entry";
-import {BundleTypeEnum} from "../fhir/dstu3/BundleTypeEnum";
-import {Bundle_Request} from "../fhir/dstu3/Bundle_Request";
-import {HTTPVerbEnum} from "../fhir/dstu3/HTTPVerbEnum";
+import {UUID} from 'angular2-uuid';
+import {DomainResource} from '../fhir/dstu3/DomainResource';
+import {Bundle} from '../fhir/dstu3/Bundle';
+import {Bundle_Entry} from '../fhir/dstu3/Bundle_Entry';
+import {BundleTypeEnum} from '../fhir/dstu3/BundleTypeEnum';
+import {Bundle_Request} from '../fhir/dstu3/Bundle_Request';
+import {HTTPVerbEnum} from '../fhir/dstu3/HTTPVerbEnum';
 
 @Injectable()
 export class ContextService {
 
-  contextResources : Map<string,ContextResource>;
+  contextResources: Map<string, ContextResource>;
   // private count=0;
 
   constructor() {
@@ -19,8 +19,8 @@ export class ContextService {
 
   postContextResource(resource: DomainResource ): DomainResource {
     // let id = "ctx-"+this.getNextCount();
-    let contextResource = new ContextResource();
-    let id = UUID.UUID();
+    const contextResource = new ContextResource();
+    const id = UUID.UUID();
     resource.id = id;
 
     contextResource.resource = resource;

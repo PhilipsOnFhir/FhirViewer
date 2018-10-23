@@ -202,11 +202,11 @@ export class SmartOnFhirService   {
     );
   }
 
-  getResource(resourceUrl: string) : Observable<any> {
+  getResource(resourceReference: string) : Observable<any> {
     if ( !this.availableAndReady ){ return new Observable<any>(observer => observer.error("SoFS not Initialised")) }
-    let contextResource = this.contextService.getContextResource(resourceUrl);
+    const contextResource = this.contextService.getContextResource(resourceReference);
     if ( contextResource ){
-      console.log("retrieve from context");
+      console.log('retrieve from context');
       switch ( contextResource.type){
         case HTTPVerbEnum.POST:
         case HTTPVerbEnum.PUT:
@@ -217,11 +217,11 @@ export class SmartOnFhirService   {
     }
     let url: string;
 
-    if ( resourceUrl.startsWith("http")){
+    if ( resourceReference.startsWith("http")){
       console.log("load http");
-      url = resourceUrl;
+      url = resourceReference;
     } else {
-      url = this.url+(resourceUrl.startsWith("/")?resourceUrl:"/"+resourceUrl);
+      url = this.url+(resourceReference.startsWith("/")?resourceReference:"/"+resourceReference);
     }
     return this.http.get<DomainResource>( url );
   }
