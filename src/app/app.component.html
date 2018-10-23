@@ -31,14 +31,5 @@
   </mat-progress-spinner>
 </div>
 <div *ngIf="!showSpinner">
-  <!--<div *ngIf="isServerKnown()" >-->
-    <!--<app-fhir-server-selector></app-fhir-server-selector>-->
-  <!--</div>-->
-  <!--<div *ngIf="isLaunching()" >-->
-    <!--Launching-->
-  <!--</div>-->
-  <!--<div *ngIf="isReady()" >-->
-    <router-outlet></router-outlet>
-  <!--</div>-->
-
+  <router-outlet></router-outlet>
 </div>
