@@ -59,7 +59,6 @@ export class AppComponent implements  OnInit {
         this.appState = AppStateEnum.READY;
         this.currentPatientService.updateQueryParams( queryParamMap );
         this.router.navigate(pathSegments, { queryParams: {fs: this.sofs.getUrl(), subject: queryParamMap.get('subject')}} );
-        // this.router.navigate(pathSegments, { queryParams: queryParamMap } );
       }
     );
 

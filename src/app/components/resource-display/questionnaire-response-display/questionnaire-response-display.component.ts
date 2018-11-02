@@ -18,11 +18,12 @@ import {Router} from "@angular/router";
 })
 export class QuestionnaireResponseDisplayComponent implements OnInit {
   @Input() resource: DomainResource;
-  questionnaireResponse : QuestionnaireResponse;
-  private questionnaire: Questionnaire;
-  itemDatas : ItemData[] = new Array(0);
+  questionnaireResponse: QuestionnaireResponse;
+  questionnaire: Questionnaire;
+  itemDatas: ItemData[] = new Array(0);
   plainJson: string;
-  private extSm: ExtensionSM[];
+  extSm: ExtensionSM[];
+  title: string;
 
   constructor( private sofs: SmartOnFhirService, private contextService: ContextService, private router: Router ) { }
 
@@ -30,7 +31,7 @@ export class QuestionnaireResponseDisplayComponent implements OnInit {
     this.questionnaireResponse = this.resource as QuestionnaireResponse;
     this.sofs.getReference( this.questionnaireResponse.questionnaire ).subscribe( questionnaire => {
       this.questionnaire = questionnaire as Questionnaire;
-
+      this.title = this.questionnaire.title;
       this.fillItemDatas();
     })
     this.plainJson = JSON.stringify(this.questionnaireResponse);
@@ -39,14 +40,14 @@ export class QuestionnaireResponseDisplayComponent implements OnInit {
   private fillItemDatas() {
     this.itemDatas = new Array(0);
     this.questionnaireResponse.item.forEach(questionnaireResponseItem => {
-      let itemData = new ItemData();
+      const itemData = new ItemData();
       itemData.questionnaireResponseItem = questionnaireResponseItem;
       this.questionnaire.item.forEach(qItem => {
         if (qItem.linkId === questionnaireResponseItem.linkId) {
           itemData.questionnaireItem = qItem;
         }
       })
-      this.itemDatas.push(itemData)
+      this.itemDatas.push(itemData);
     })
     this.extSm = new Array(0);
     this.questionnaire.extension

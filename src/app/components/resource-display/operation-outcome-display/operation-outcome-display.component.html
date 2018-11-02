@@ -1,0 +1,19 @@
+<mat-tab-group>
+  <mat-tab label="nice">
+    <div *ngFor="let issue of operationOutcome.issue">
+      <table>
+        <tr><td>severity</td><td>{{issue.severity}}</td></tr>
+        <tr><td>code</td><td>{{issue.code}}</td></tr>
+        <tr><td>diagnostics</td><td>{{issue.diagnostics}}</td></tr>
+      </table>
+    </div>
+
+  </mat-tab>
+  <mat-tab label="normal">
+    <app-fhir-element [element]="resource" ></app-fhir-element>
+  </mat-tab>
+  <mat-tab label="json">
+    <ngx-json-viewer [json]="resource"></ngx-json-viewer>
+    <!--{{getJson()}}-->
+  </mat-tab>
+</mat-tab-group>

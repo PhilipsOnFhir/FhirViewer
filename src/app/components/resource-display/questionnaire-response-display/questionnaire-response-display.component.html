@@ -3,10 +3,12 @@
   <mat-tab label="nice">
     <div *ngIf="questionnaire">
       <h2>{{title}}</h2>
-      <p *ngIf="questionnaire.description">{{questionnaire.description}}</p>
+      <p *ngIf="questionnaire.description"><markdown ngPreserveWhitespaces [data] = questionnaire.description></markdown></p>
+      <p *ngIf="questionnaire.purpose"><markdown ngPreserveWhitespaces [data] = questionnaire.purpose></markdown></p>
+      <p *ngIf="questionnaire.copyright"><markdown ngPreserveWhitespaces [data] = questionnaire.copyright></markdown></p>
       <table>
       <tr>
-      <td>status</td><td>{{questionnaire.status}}</td>
+        <td>status</td><td>{{questionnaire.status}}</td>
       </tr>
       </table>
     <mat-divider></mat-divider>

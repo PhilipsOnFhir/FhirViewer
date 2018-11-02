@@ -18,8 +18,8 @@ export class QuestionnaireDisplayItemComponent implements OnInit {
   @Input()  questionnaireItem: Questionnaire_Item;
   @Output() update  = new EventEmitter<QuestionnaireResponse_Item>();
 
-  private text: string = "";
-  private value: string | null;
+  text = ''
+  value: string | null;
   private item: Questionnaire_Item;
   private questionniareResponseItem: QuestionnaireResponse_Item;
 
