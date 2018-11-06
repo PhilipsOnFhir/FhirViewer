@@ -9,12 +9,12 @@
         <tr *ngFor="let entry of bundle.entry">
           <td>
             <div *ngIf="entry.resource.resourceType==='Patient'">
-              <button mat-icon-button *ngIf="!currentPatient">
+              <button mat-icon-button >
                 <mat-icon (click)="selectPatient(entry.resource)">label</mat-icon>
               </button>
-              <button mat-icon-button *ngIf="currentPatient && (entry.resource.id===currentPatient.id)">
-                <mat-icon (click)="selectPatient(entry.resource)">label_off</mat-icon>
-              </button>
+              <!--<button mat-icon-button *ngIf="currentPatient && (entry.resource.id===currentPatient.id)">-->
+                <!--<mat-icon (click)="selectPatient(entry.resource)">label_off</mat-icon>-->
+              <!--</button>-->
             </div>
           </td>
           <td *ngIf="entry.request && entry.request.method"> {{entry.request.method}}</td>

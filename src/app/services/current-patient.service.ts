@@ -1,10 +1,11 @@
-import { Injectable } from '@angular/core';
+import {EventEmitter, Injectable, Output} from '@angular/core';
 import {Patient} from '../fhir/dstu3/Patient';
 import {SmartOnFhirService} from '../fhir-util/smart-on-fhir.service';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {Resource} from '../fhir/dstu3/Resource';
 import {ContextResource} from '../fhir-util/context.service';
 import {Encounter} from '../fhir/dstu3/Encounter';
+import {RequestGroupResponseResult} from '../components/resource-display/request-group-display/request-group-display.component';
 
 @Injectable({
   providedIn: 'root'
@@ -12,16 +13,20 @@ import {Encounter} from '../fhir/dstu3/Encounter';
 export class CurrentPatientService {
   private patient: Patient = null;
   private encounter: Encounter = null;
+  @Output() patientUpdate  = new EventEmitter<Patient>();
+
 
   constructor( private sofs: SmartOnFhirService, private router: Router, private activatedRoute: ActivatedRoute) {}
 
   setPatient( patient: Patient ) {
+    console.log(patient);
     this.patient = patient;
+    this.patientUpdate.emit( patient )
     this.router.navigate([],
-      { relativeTo: this.activatedRoute,
-        queryParams: { subject: this.patient.resourceType + '/' + this.patient.id },
-        queryParamsHandling: 'merge'
-      }
+    { relativeTo: this.activatedRoute,
+    queryParams: { subject: this.patient.resourceType + '/' + this.patient.id },
+    queryParamsHandling: 'merge'
+    }
     );
 
   }
@@ -30,9 +35,16 @@ export class CurrentPatientService {
     return this.patient;
   }
 
-  clearPatient() {
-    this.patient = null;
-  }
+  // clearPatient() {
+  //   this.patient = null;
+  //   this.patientUpdate.emit( this.patient )
+  //   this.router.navigate([],
+  //       { relativeTo: this.activatedRoute,
+  //           queryParams: { subject: this.patient.resourceType + '/' + this.patient.id },
+  //           queryParamsHandling: 'merge'
+  //       }
+  //   );
+  // }
 
   hasPatient() {
     return this.patient != null;
@@ -57,7 +69,7 @@ export class CurrentPatientService {
       if (!this.patient || this.patient.id !== subjectParam) {
         this.sofs.getResource(subjectParam).subscribe(resource => {
           console.log('param based patient update');
-          this.patient = resource as Patient;
+          this.setPatient( resource as Patient );
         });
       }
     }

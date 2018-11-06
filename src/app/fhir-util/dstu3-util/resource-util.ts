@@ -3,6 +3,8 @@ import {PatientUtil} from "./patient-util";
 import {Questionnaire} from "../../fhir/dstu3/Questionnaire";
 import {DomainResource} from "../../fhir/dstu3/DomainResource";
 import {QuestionnaireUtil} from "./questionaire-util";
+import {RiskAssessment} from '../../fhir/dstu3/RiskAssessment';
+import {RiskAssessmentUtil} from './riskassessment-util';
 
 export class ResourceUtil {
 
@@ -15,6 +17,9 @@ export class ResourceUtil {
         break;
       case "Questionnaire":
         summary = QuestionnaireUtil.getSummary( domainResource as Questionnaire);
+        break;
+      case RiskAssessment.def:
+        summary = RiskAssessmentUtil.getSummary( domainResource as RiskAssessment );
         break;
       default:
         summary = domainResource.id;

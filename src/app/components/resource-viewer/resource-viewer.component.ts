@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
-import {DomainResource} from "../../fhir/dstu3/DomainResource";
-import {ResourceUtil} from "../../fhir-util/dstu3-util/resource-util";
+import {ActivatedRoute, Router} from '@angular/router';
+import {DomainResource} from '../../fhir/dstu3/DomainResource';
+import {ResourceUtil} from '../../fhir-util/dstu3-util/resource-util';
 
 @Component({
   selector: 'app-resource-viewer',
@@ -15,9 +15,9 @@ export class ResourceViewerComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private router: Router) {
-    this.router.routeReuseStrategy.shouldReuseRoute = function(){
+    this.router.routeReuseStrategy.shouldReuseRoute = function() {
       return false;
-    }
+    };
   }
 
   ngOnInit() {
@@ -28,6 +28,6 @@ export class ResourceViewerComponent implements OnInit {
   }
 
   openResource() {
-    this.router.navigate(["fhir",this.resource.resourceType , this.resource.id], { queryParamsHandling: 'preserve' });
+    this.router.navigate(['fhir', this.resource.resourceType , this.resource.id], { queryParamsHandling: 'preserve' });
   }
 }

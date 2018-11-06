@@ -11,27 +11,30 @@
         <td>status</td><td>{{questionnaire.status}}</td>
       </tr>
       </table>
-    <mat-divider></mat-divider>
-    <app-questionnaire-display-item *ngFor="let itemData of itemDatas"
-                                    [questionnaireResponseItem]="itemData.questionnaireResponseItem"
-                                    [questionnaireItem]="itemData.questionnaireItem"
-                                    (update)="updateValue($event)">
+      <mat-divider></mat-divider>
+      <app-questionnaire-display-item *ngFor="let itemData of itemDatas"
+                                      [questionnaireResponseItem]="itemData.questionnaireResponseItem"
+                                      [questionnaireItem]="itemData.questionnaireItem"
+                                      (update)="updateValue($event)">
 
-    </app-questionnaire-display-item>
-    <mat-divider></mat-divider>
-    <div *ngIf="questionnaire.extension">
-      <button mat-button [disabled]="isRetrieving()" (click)="performTransforms()">Transform</button>
-      <table *ngFor="let es of extSm">
-        <tr *ngIf="es.extension.url === 'http://hl7.org/fhir/StructureDefinition/questionnaire-targetStructureMap'">
-          <td>{{es.extension.valueReference.reference}}</td>
-          <td >
-            <app-resource-viewer *ngIf="es.resource" [resource]="es.resource"></app-resource-viewer>
-            <mat-spinner *ngIf="es.retreiveActive" [diameter]="30"></mat-spinner>
-            <!--<app-fhir-element [element]=es.resource></app-fhir-element>-->
-          </td>
-        </tr>
-      </table>
-    </div>
+      </app-questionnaire-display-item>
+
+      <mat-divider></mat-divider>
+
+      <div *ngIf="questionnaire.extension">
+        <button mat-button [disabled]="isRetrieving()" (click)="performTransforms()">Transform</button>
+        <table *ngFor="let es of extSm">
+          <tr *ngIf="es.extension.url === 'http://hl7.org/fhir/StructureDefinition/questionnaire-targetStructureMap'">
+            <td>{{es.extension.valueReference.reference}}</td>
+            <td >
+              <app-resource-viewer *ngIf="es.resource" [resource]="es.resource"></app-resource-viewer>
+              <mat-spinner *ngIf="es.retreiveActive" [diameter]="30"></mat-spinner>
+              <!--<app-fhir-element [element]=es.resource></app-fhir-element>-->
+            </td>
+          </tr>
+        </table>
+      </div>
+
     </div>
   </mat-tab>
       <!--<div *ngFor="let e of extSm">-->
@@ -48,7 +51,7 @@
   <mat-tab label="json">
     <ngx-json-viewer [json]="resource"></ngx-json-viewer>
   </mat-tab>
-  <mat-tab label="plan-json">
+  <mat-tab label="plain-json">
     {{plainJson}}
   </mat-tab>
 </mat-tab-group>

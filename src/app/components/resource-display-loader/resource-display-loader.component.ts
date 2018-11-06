@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
-import {SmartOnFhirService} from "../../fhir-util/smart-on-fhir.service";
+import {ActivatedRoute, Router} from '@angular/router';
+import {SmartOnFhirService} from '../../fhir-util/smart-on-fhir.service';
 
 @Component({
   selector: 'app-resource-display-loader',
@@ -14,9 +14,9 @@ export class ResourceDisplayLoaderComponent implements OnInit {
   resource: any  | null;
 
   constructor( private route: ActivatedRoute, private router: Router, private fhirService: SmartOnFhirService) {
-    this.router.routeReuseStrategy.shouldReuseRoute = function(){
+    this.router.routeReuseStrategy.shouldReuseRoute = function() {
       return false;
-    }
+    };
   }
 
   ngOnInit() {
@@ -28,12 +28,12 @@ export class ResourceDisplayLoaderComponent implements OnInit {
       });
   }
 
-  setValues(){
+  setValues() {
     this.resourceType = this.route.snapshot.paramMap.get('resourceType');
     this.resourceId   = this.route.snapshot.paramMap.get('resourceId');
 
-    console.log( "Resource Display - "+this.resourceType+":"+this.resourceId);
-    this.fhirService.getResource(this.resourceType+"/"+this.resourceId)
+    console.log( 'Resource Display - ' + this.resourceType + ':' + this.resourceId);
+    this.fhirService.getResource(this.resourceType + '/' + this.resourceId)
       .subscribe( res => {
         console.log(res);
         this.resource = res;

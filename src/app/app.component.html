@@ -15,8 +15,8 @@
       <button mat-icon-button>
         <mat-icon (click)="selectPatient()">people</mat-icon>
       </button>
-      <div *ngIf="hasCurrentPatient()">Patient:{{getCurrentPatientString()}}</div>
-      <button mat-button *ngIf="hasCurrentPatient()" matSuffix mat-icon-button aria-label="Clear"  (click)="clearPatient()"><mat-icon>close</mat-icon></button>
+      <div *ngIf="currentPatientString">Patient:{{currentPatientString}}</div>
+      <!--<button mat-button *ngIf="hasCurrentPatient()" matSuffix mat-icon-button aria-label="Clear"  (click)="clearPatient()"><mat-icon>close</mat-icon></button>-->
     </mat-toolbar-row>
     <mat-toolbar-row>
       <button mat-icon-button>

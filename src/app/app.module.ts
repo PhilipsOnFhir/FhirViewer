@@ -4,7 +4,7 @@ import {MarkdownModule, MarkedOptions} from 'ngx-markdown';
 
 import {AppComponent} from './app.component';
 import {SmartOnFhirService} from './fhir-util/smart-on-fhir.service';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {HttpClientModule} from '@angular/common/http';
 import {RouterModule, Routes} from '@angular/router';
 import {ResourceSelectorComponent} from './components/resource-selector/resource-selector.component';
 import {ResourceDisplayComponent} from './components/resource-display/resource-display.component';
@@ -38,6 +38,7 @@ import {ActivityDefinitionDisplayComponent} from './components/resource-display/
 import {AsyncSessionComponentComponent} from './components/async-session-component/async-session-component.component';
 import {GroupDisplayComponent} from './components/resource-display/group-display/group-display.component';
 import { OperationOutcomeDisplayComponent } from './components/resource-display/operation-outcome-display/operation-outcome-display.component';
+import { FhirEditorComponent } from './components/fhir-editor/fhir-editor.component';
 // import {EpicHttpInterceptor} from './interceptor/http-interceptor.service';
 
 const appRoutes: Routes = [
@@ -47,7 +48,8 @@ const appRoutes: Routes = [
   { path: 'fhir', component: ResourceOverviewComponent },
   { path: 'fhir/:resourceType', component: ResourceSelectorComponent },
   { path: 'fhir/:resourceType/:resourceId', component: ResourceDisplayLoaderComponent},
-  { path: 'async', component: AsyncSessionComponentComponent}
+  { path: 'async', component: AsyncSessionComponentComponent},
+  { path: 'editor/:resourceType/:resourceId', component: FhirEditorComponent }
 ];
 
 @NgModule({
@@ -81,6 +83,7 @@ const appRoutes: Routes = [
     AsyncSessionComponentComponent,
     GroupDisplayComponent,
     OperationOutcomeDisplayComponent,
+    FhirEditorComponent,
   ],
   imports: [
     RouterModule.forRoot(

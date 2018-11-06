@@ -1,11 +1,12 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {CancelButtonEvent} from "../../../cancel-button/cancel-button.component";
-import {Questionnaire_Item} from "../../../../fhir/dstu3/Questionnaire_Item";
-import {QuestionnaireResponse_Item} from "../../../../fhir/dstu3/QuestionnaireResponse_Item";
-import {QuestionnaireResponse_Answer} from "../../../../fhir/dstu3/QuestionnaireResponse_Answer";
-import {RequestGroupResponseResult} from "../../request-group-display/request-group-display.component";
-import {QuestionnaireItemTypeEnum} from "../../../../fhir/dstu3/QuestionnaireItemTypeEnum";
-import {Quantity} from "../../../../fhir/dstu3/Quantity";
+import {CancelButtonEvent} from '../../../cancel-button/cancel-button.component';
+import {Questionnaire_Item} from '../../../../fhir/dstu3/Questionnaire_Item';
+import {QuestionnaireResponse_Item} from '../../../../fhir/dstu3/QuestionnaireResponse_Item';
+import {QuestionnaireResponse_Answer} from '../../../../fhir/dstu3/QuestionnaireResponse_Answer';
+import {RequestGroupResponseResult} from '../../request-group-display/request-group-display.component';
+import {QuestionnaireItemTypeEnum} from '../../../../fhir/dstu3/QuestionnaireItemTypeEnum';
+import {Quantity} from '../../../../fhir/dstu3/Quantity';
+import {MatCheckboxChange} from '@angular/material';
 
 @Component({
   selector: 'app-questionnaire-display-item',
@@ -18,25 +19,26 @@ export class QuestionnaireDisplayItemComponent implements OnInit {
   @Input()  questionnaireItem: Questionnaire_Item;
   @Output() update  = new EventEmitter<QuestionnaireResponse_Item>();
 
-  text = ''
+  text = '';
   value: string | null;
+  booleanValue: boolean;
   private item: Questionnaire_Item;
   private questionniareResponseItem: QuestionnaireResponse_Item;
 
   constructor() { }
 
   ngOnInit() {
-    if ( this.questionnaireItem.prefix ){
+    if ( this.questionnaireItem.prefix ) {
       this.text = this.questionnaireItem.prefix;
     }
-    if ( this.questionnaireItem.text ){
-      this.text += " " + this.questionnaireItem.text;
+    if ( this.questionnaireItem.text ) {
+      this.text += ' ' + this.questionnaireItem.text;
     }
 
-    if ( this.questionnaireResponseItem.answer && this.questionnaireResponseItem.answer.length>0 && this.questionnaireItem.type ){
-      let answers = this.questionnaireResponseItem.answer;
-      console.log(answers[0])
-      switch( this.questionnaireItem.type ){
+    if ( this.questionnaireResponseItem.answer && this.questionnaireResponseItem.answer.length > 0 && this.questionnaireItem.type ) {
+      const answers = this.questionnaireResponseItem.answer;
+      console.log(answers[0]);
+      switch ( this.questionnaireItem.type ) {
         case QuestionnaireItemTypeEnum.DECIMAL:
           this.value = answers[0].valueDecimal;
           break;
@@ -46,36 +48,52 @@ export class QuestionnaireDisplayItemComponent implements OnInit {
         case QuestionnaireItemTypeEnum.QUANTITY:
           this.value = answers[0].valueQuantity.value;
           break;
+        case QuestionnaireItemTypeEnum.BOOLEAN:
+          this.booleanValue = (answers[0].valueBoolean === 'true' ? true : false);
+          break;
       }
 
     }
   }
 
-  stringEvent( event: CancelButtonEvent){
+  stringEvent( event: CancelButtonEvent) {
     console.log(event);
     console.log(this.value);
   }
 
-  decimalEvent( event: CancelButtonEvent){
+  booleanEvent($event: MatCheckboxChange) {
+      console.log(this.booleanValue);
+      const answer = new QuestionnaireResponse_Answer();
+      answer.valueBoolean = ( this.booleanValue ? 'true' : 'falsë');
+
+      if ( this.questionnaireResponseItem.answer.length === 0 ) {
+        this.questionnaireResponseItem.answer.push( answer );
+      } else {
+        this.questionnaireResponseItem.answer[0] = answer;
+      }
+      // console.log(this.questionnaireResponseItem);
+      this.sendUpdate();
+  }
+
+  decimalEvent( event: CancelButtonEvent) {
     // console.log(event);
     console.log(this.value);
     // console.log(event.value)
     // this.value = event.value;
-    let number = Number(this.value);
-    if ( isNaN(number) ){
-      console.log("not a number");
-    }
-    else if (this.questionnaireItem.type == QuestionnaireItemTypeEnum.QUANTITY ){
-      let answer = new QuestionnaireResponse_Answer();
+    const number = Number(this.value);
+    if ( isNaN(number) ) {
+      console.log('not a number');
+    } else if (this.questionnaireItem.type === QuestionnaireItemTypeEnum.QUANTITY ) {
+      const answer = new QuestionnaireResponse_Answer();
       this.questionnaireResponseItem.answer = new Array(0);
-      let quantity: Quantity = new Quantity();
+      const quantity: Quantity = new Quantity();
       quantity.value = String( number );
       answer.valueQuantity = quantity;
       this.questionnaireResponseItem.answer.push( answer );
       // this.value = String(number);
       this.sendUpdate();
     } else {
-      let answer = new QuestionnaireResponse_Answer();
+      const answer = new QuestionnaireResponse_Answer();
       answer.valueDecimal = String(number);
       this.questionnaireResponseItem.answer = new Array(0);
       this.questionnaireResponseItem.answer.push( answer );
@@ -87,4 +105,6 @@ export class QuestionnaireDisplayItemComponent implements OnInit {
   sendUpdate() {
     this.update.emit(this.questionnaireResponseItem);
   }
+
+
 }

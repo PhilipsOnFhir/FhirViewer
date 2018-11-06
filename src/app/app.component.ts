@@ -15,6 +15,7 @@ export class AppComponent implements  OnInit {
   // availableAndReady: boolean = false;
   showSpinner = true;
   private appState: AppStateEnum = AppStateEnum.SERVER_UNKNOWN;
+    currentPatientString: string;
 
   constructor(
     private sofs: SmartOnFhirService,
@@ -58,6 +59,9 @@ export class AppComponent implements  OnInit {
         this.showSpinner = false;
         this.appState = AppStateEnum.READY;
         this.currentPatientService.updateQueryParams( queryParamMap );
+        this.currentPatientService.patientUpdate.subscribe(patient => {
+            this.currentPatientString = PatientUtil.getPreferredName(patient);
+        });
         this.router.navigate(pathSegments, { queryParams: {fs: this.sofs.getUrl(), subject: queryParamMap.get('subject')}} );
       }
     );
@@ -67,24 +71,26 @@ export class AppComponent implements  OnInit {
     });
   }
 
-  hasCurrentPatient(): boolean {
-    const currentPatient: Patient = this.currentPatientService.getPatient();
-    return currentPatient != null;
-  }
+  // hasCurrentPatient(): boolean;
+  //   this.currentPatientString =
+  //       ( this.currentPatientService.hasPatient() ?  PatientUtil.getPreferredName(this.currentPatientService.getPatient()) : '---' );
+  //   const currentPatient: Patient = this.currentPatientService.getPatient();
+  //   return currentPatient != null;
+  // }
 
-  getCurrentPatientString(): string {
-    const currentPatient: Patient = this.currentPatientService.getPatient();
-    const result: string = ( currentPatient ?  PatientUtil.getPreferredName(currentPatient) : '---' );
-    return result;
-  }
+  // getCurrentPatientString();: string; {
+  //   this.currentPatient = this.currentPatientService.getPatient();
+  //   const result: string = ( currentPatient ?  PatientUtil.getPreferredName(currentPatient) : '---' );
+  //   return result;
+  // }
 
   selectPatient() {
     this.router.navigate(['fhir', 'Patient'], { queryParamsHandling: 'preserve' });
   }
 
-  clearPatient() {
-    this.currentPatientService.clearPatient();
-  }
+  // clearPatient() {
+  //   this.currentPatientService.clearPatient();
+  // }
 
   selectHome() {
     this.router.navigate(['fhir' ], { queryParamsHandling: 'preserve' });
