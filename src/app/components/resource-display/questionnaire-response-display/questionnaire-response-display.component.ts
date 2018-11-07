@@ -38,7 +38,7 @@ export class QuestionnaireResponseDisplayComponent implements OnInit {
   }
 
   private fillItemDatas() {
-    this.itemDatas = new Array(0);
+      this.itemDatas = new Array(0);
     this.questionnaireResponse.item.forEach(questionnaireResponseItem => {
       const itemData = new ItemData();
       itemData.questionnaireResponseItem = questionnaireResponseItem;
@@ -57,6 +57,7 @@ export class QuestionnaireResponseDisplayComponent implements OnInit {
        es.resource = null;
        this.extSm.push(es);
     });
+
   }
 
   updateValue( event ) {

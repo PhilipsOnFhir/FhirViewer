@@ -201,8 +201,8 @@ export class SmartOnFhirService   {
     );
   }
 
-  getResource(resourceReference: string): Observable<any> {
-    if ( !this.availableAndReady ) { return new Observable<any>(observer => observer.error('SoFS not Initialised')); }
+    getResource(resourceReference: string): Observable<any> {
+            if ( !this.availableAndReady ) { return new Observable<any>(observer => observer.error('SoFS not Initialised')); }
     const contextResource = this.contextService.getContextResource(resourceReference);
     if ( contextResource ) {
       console.log('retrieve from context');
@@ -244,7 +244,7 @@ export class SmartOnFhirService   {
 
       const url = this.url + (resource.resourceType.startsWith('/') ? resource.resourceType : '/' + resource.resourceType);
       console.log(url);
-      return this.http.post( url, resource,{observe: 'response' as 'body'} ) ;
+      return this.http.post( url, resource, {observe: 'response' as 'body'} ) ;
   }
 
   putResource(resource: Resource) {

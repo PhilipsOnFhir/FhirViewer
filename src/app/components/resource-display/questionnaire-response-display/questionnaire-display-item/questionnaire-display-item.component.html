@@ -38,12 +38,13 @@
     <div *ngSwitchCase="'choice'">
       <p>{{text}}</p>
       <mat-form-field>
-        <mat-select *ngIf="questionnaireItem.option" [(ngModel)]="selectedValue">
-          <mat-option *ngFor="let option of questionnaireItem.option" [value]="option.valueCoding.display">
+        <mat-select *ngIf="questionnaireItem.option" style="width : 100%">
+          <mat-option *ngFor="let option of questionnaireItem.option"
+                      [value]="option.valueCoding.code" >
             {{option.valueCoding.display}}
           </mat-option>
         </mat-select>
-        <mat-select *ngIf="!questionnaireItem.option" [(ngModel)]="selectedValue">
+        <mat-select *ngIf="!questionnaireItem.option" >
           <mat-option *ngFor="let code of questionnaireItem.code" [value]="code.code">
             {{code.display}}
           </mat-option>

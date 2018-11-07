@@ -21,10 +21,10 @@ export class CurrentPatientService {
   setPatient( patient: Patient ) {
     console.log(patient);
     this.patient = patient;
-    this.patientUpdate.emit( patient )
+    this.patientUpdate.emit( patient );
     this.router.navigate([],
     { relativeTo: this.activatedRoute,
-    queryParams: { subject: this.patient.resourceType + '/' + this.patient.id },
+    queryParams: { patient: this.patient.resourceType + '/' + this.patient.id },
     queryParamsHandling: 'merge'
     }
     );
@@ -63,11 +63,11 @@ export class CurrentPatientService {
   }
 
   updateQueryParams( queryParmas: ParamMap ) {
-    console.log( queryParmas )
-    const subjectParam = queryParmas.get('subject');
+    console.log( queryParmas );
+    const subjectParam = queryParmas.get('patient');
     if ( subjectParam ) {
       if (!this.patient || this.patient.id !== subjectParam) {
-        this.sofs.getResource(subjectParam).subscribe(resource => {
+        this.sofs.getResource(Patient.def + '/' + subjectParam).subscribe(resource => {
           console.log('param based patient update');
           this.setPatient( resource as Patient );
         });
@@ -77,7 +77,7 @@ export class CurrentPatientService {
     const encounterParam = queryParmas.get('encounter');
     if (encounterParam) {
       if ((!this.encounter || this.encounter.id !== encounterParam)) {
-        this.sofs.getResource(subjectParam).subscribe(resource =>
+        this.sofs.getResource(Encounter.def + '/' + subjectParam).subscribe(resource =>
           this.encounter = resource as Encounter
         );
       }

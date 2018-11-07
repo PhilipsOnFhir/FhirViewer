@@ -35,6 +35,16 @@ export class QuestionnaireDisplayItemComponent implements OnInit {
       this.text += ' ' + this.questionnaireItem.text;
     }
 
+    if ( this.questionnaireItem.option ) {
+        this.questionnaireItem.option.forEach(option => {
+            if (option.valueCoding) {
+                if (!option.valueCoding.display) {
+                    option.valueCoding.display = option.valueCoding.code;
+                }
+            }
+        });
+    }
+
     if ( this.questionnaireResponseItem.answer && this.questionnaireResponseItem.answer.length > 0 && this.questionnaireItem.type ) {
       const answers = this.questionnaireResponseItem.answer;
       console.log(answers[0]);
@@ -51,8 +61,9 @@ export class QuestionnaireDisplayItemComponent implements OnInit {
         case QuestionnaireItemTypeEnum.BOOLEAN:
           this.booleanValue = (answers[0].valueBoolean === 'true' ? true : false);
           break;
+        case QuestionnaireItemTypeEnum.CHOICE:
+          break;
       }
-
     }
   }
 
