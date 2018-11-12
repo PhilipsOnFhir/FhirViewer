@@ -17,6 +17,21 @@
         />
       </mat-form-field>
     </div>
+    <div *ngSwitchCase="'text'">
+      <div *ngIf="!questionnaireItem.readOnly">
+        <mat-form-field>
+          <input matInput type="text" placeholder={{text}} [(ngModel)]="value"
+                 (change)="stringEvent($event)"
+          />
+        </mat-form-field>
+      </div>
+        <!--<div *ngIf="questionnaireItem.readOnly">{{questionnaireResponseItem.answer}}</div>-->
+      <div *ngIf="questionnaireItem.readOnly">
+        <div *ngIf="questionnaireItem.text">{{questionnaireItem.text}} : </div>
+        <div *ngIf="questionnaireResponseItem.answer && questionnaireResponseItem.answer[0] ">{{questionnaireResponseItem.answer[0].valueString}}</div>
+      </div>
+
+    </div>
     <div *ngSwitchCase="'date'">
       <mat-form-field>
         <input matInput type="date" placeholder={{text}} [(ngModel)]="value"
@@ -53,12 +68,25 @@
       </mat-form-field>
     </div>
     <div *ngSwitchDefault>
-        <mat-expansion-panel [expanded]="true">
-          <mat-expansion-panel-header>
+        <mat-card>
+          <mat-card-title *ngIf="text">{{text}}</mat-card-title>
+          <!--<mat-panel-title><b>{{text}}</b></mat-panel-title>-->
+          <mat-card-content>
             <mat-panel-title><b>{{text}}</b></mat-panel-title>
-          </mat-expansion-panel-header>
-          <app-questionnaire-display-item *ngFor="let subItem of questionnaireItem.item" [questionnaireItem]="subItem" ></app-questionnaire-display-item>
-        </mat-expansion-panel>
+            <app-questionnaire-display-item *ngFor="let subItem of questionnaireItem.item"
+                  [questionnaireItem]="subItem"
+                  [questionnaireResponseItem]="getQuestionnaireResponseItem(subItem)"
+            >
+
+            </app-questionnaire-display-item>
+          </mat-card-content>
+        </mat-card>
+      <!--<mat-expansion-panel [expanded]="true">-->
+        <!--<mat-expansion-panel-header>-->
+          <!--<mat-panel-title><b>{{text}}</b></mat-panel-title>-->
+        <!--</mat-expansion-panel-header>-->
+        <!--<app-questionnaire-display-item *ngFor="let subItem of questionnaireItem.item" [questionnaireItem]="subItem" ></app-questionnaire-display-item>-->
+      <!--</mat-expansion-panel>-->
     </div>
   </div>
 </mat-accordion>

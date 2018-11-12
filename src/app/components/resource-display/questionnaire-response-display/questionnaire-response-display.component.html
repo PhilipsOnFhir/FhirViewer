@@ -22,13 +22,13 @@
       <mat-divider></mat-divider>
 
       <div *ngIf="questionnaire.extension">
-        <button mat-button [disabled]="isRetrieving()" (click)="performTransforms()">Transform</button>
+        <!--<button mat-button [disabled]="isRetrieving()" (click)="performTransforms()">Transform</button>-->
         <table *ngFor="let es of extSm">
           <tr *ngIf="es.extension.url === 'http://hl7.org/fhir/StructureDefinition/questionnaire-targetStructureMap'">
             <td>{{es.extension.valueReference.reference}}</td>
             <td >
               <app-resource-viewer *ngIf="es.resource" [resource]="es.resource"></app-resource-viewer>
-              <mat-spinner *ngIf="es.retreiveActive" [diameter]="30"></mat-spinner>
+              <mat-spinner *ngIf="es.retrieveActive" [diameter]="30"></mat-spinner>
               <!--<app-fhir-element [element]=es.resource></app-fhir-element>-->
             </td>
           </tr>

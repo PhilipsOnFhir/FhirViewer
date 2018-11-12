@@ -6,6 +6,8 @@ import {QuestionnaireUtil} from '../../fhir-util/dstu3-util/questionaire-util';
 import {QuestionnaireResponse} from '../../fhir/dstu3/QuestionnaireResponse';
 import {CurrentPatientService} from '../../services/current-patient.service';
 import {QuestionnaireResponseStatusEnum} from '../../fhir/dstu3/QuestionnaireResponseStatusEnum';
+import {ContextService} from '../../fhir-util/context.service';
+import {Resource} from '../../fhir/dstu3/Resource';
 
 
 /**
@@ -35,8 +37,10 @@ export class FhirEditorComponent implements OnInit {
     resource: any  | null;
     questionnaireResponse: QuestionnaireResponse;
     hasbeenStored = false;
+    private resources: Resource[];
 
-    constructor( private route: ActivatedRoute, private router: Router, private sofs: SmartOnFhirService, private currentPatient: CurrentPatientService) {
+    constructor( private route: ActivatedRoute, private router: Router, private sofs: SmartOnFhirService,
+                 private currentPatient: CurrentPatientService, private contextService: ContextService) {
         this.router.routeReuseStrategy.shouldReuseRoute = function() {
             return false;
         };
@@ -57,8 +61,12 @@ export class FhirEditorComponent implements OnInit {
                   this.sofs.setContainedResourceSource( this.resource );
                   if ( this.resourceType === Questionnaire.def ) {
                       // create QR
-                      this.questionnaireResponse = QuestionnaireUtil.createQuestionnaireResponse( this.currentPatient, res );
-                      this.questionnaireResponse.status = QuestionnaireResponseStatusEnum.IN_PROGRESS;
+                      // this.questionnaireResponse = QuestionnaireUtil.createQuestionnaireResponse( this.currentPatient, res );
+                      QuestionnaireUtil.fillIn( this.currentPatient, this.contextService, this.sofs, res )
+                          .subscribe( qr => {
+                              this.questionnaireResponse = qr;
+                              this.questionnaireResponse.status = QuestionnaireResponseStatusEnum.IN_PROGRESS;
+                          });
                   } else if ( this.resourceType === QuestionnaireResponse.def ) {
                       this.questionnaireResponse = JSON.parse( JSON.stringify(res));
                   }
@@ -68,22 +76,36 @@ export class FhirEditorComponent implements OnInit {
 
     store() {
         this.questionnaireResponse.status = QuestionnaireResponseStatusEnum.COMPLETED;
-        if ( !this.hasbeenStored ){
-            this.sofs.postResource(this.questionnaireResponse)
-                .subscribe( res => {
-                    console.log(res);
-                    this.hasbeenStored = true;
-                }, err => {
-                    return console.log(err);
-                });
+        if ( !this.hasbeenStored ) {
+            this.resources.forEach( resource => {
+                this.sofs.postResource(resource)
+                    .subscribe( res => {
+                        console.log(res);
+                        this.hasbeenStored = true;
+                    }, err => {
+                        return console.log(err);
+                    });
+            });
         } else {
-            this.sofs.putResource(this.questionnaireResponse)
-                .subscribe( res => {
-                    console.log(res);
-                    this.hasbeenStored = true;
-                }, err => {
-                    return console.log(err);
-                });
+            this.resources.forEach( resource => {
+                this.sofs.putResource(this.questionnaireResponse)
+                    .subscribe( res => {
+                        console.log(res);
+                        this.hasbeenStored = true;
+                    }, err => {
+                        return console.log(err);
+                    });
+            });
         }
+    }
+
+    processUpdate( event: Resource[]) {
+        console.log( event );
+        this.resources = event;
+        event.forEach( resource => {
+           if ( resource.resourceType === QuestionnaireResponse.def) {
+               this.questionnaireResponse = resource as QuestionnaireResponse;
+           }
+        });
     }
 }

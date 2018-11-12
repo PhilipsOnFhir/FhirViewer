@@ -7,7 +7,7 @@
 <div *ngIf="resource">
   <!--<h1><b>{{resource.resourceType}}:</b> {{resource.id}}</h1>-->
   <div *ngIf="questionnaireResponse">
-    <app-questionnaire-response-display [resource]="questionnaireResponse"></app-questionnaire-response-display>
+    <app-questionnaire-response-display [resource]="questionnaireResponse" (update)="processUpdate($event)"></app-questionnaire-response-display>
   </div>
   <button *ngIf="!hasbeenStored" mat-button (click)="store()">Store</button>
   <button *ngIf="hasbeenStored" mat-button (click)="store()">Update</button>

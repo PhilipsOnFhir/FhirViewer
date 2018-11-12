@@ -24,7 +24,7 @@ export class CurrentPatientService {
     this.patientUpdate.emit( patient );
     this.router.navigate([],
     { relativeTo: this.activatedRoute,
-    queryParams: { patient: this.patient.resourceType + '/' + this.patient.id },
+    queryParams: { patient: this.patient.id },
     queryParamsHandling: 'merge'
     }
     );

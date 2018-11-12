@@ -10,7 +10,7 @@ export class QuestionnaireResponse_Answer      extends BackboneElement
 {
 
    static def : string = 'QuestionnaireResponse_Answer';
-   valueBoolean : string ;
+   valueBoolean : boolean ;
    valueDecimal : string ;
    valueInteger : string ;
    valueDate : string ;

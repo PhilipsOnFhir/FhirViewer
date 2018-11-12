@@ -23,31 +23,33 @@ export class QuestionnaireDisplayItemComponent implements OnInit {
   value: string | null;
   booleanValue: boolean;
   private item: Questionnaire_Item;
-  private questionniareResponseItem: QuestionnaireResponse_Item;
+  questionniareResponseItem: QuestionnaireResponse_Item;
 
   constructor() { }
 
   ngOnInit() {
-    if ( this.questionnaireItem.prefix ) {
-      this.text = this.questionnaireItem.prefix;
-    }
-    if ( this.questionnaireItem.text ) {
-      this.text += ' ' + this.questionnaireItem.text;
-    }
+      // console.log(this.questionnaireResponseItem);
+      // console.log(this.questionnaireItem);
+      if ( this.questionnaireItem.prefix ) {
+        this.text = this.questionnaireItem.prefix;
+      }
+      if ( this.questionnaireItem.text ) {
+        this.text += ' ' + this.questionnaireItem.text;
+      }
 
-    if ( this.questionnaireItem.option ) {
-        this.questionnaireItem.option.forEach(option => {
-            if (option.valueCoding) {
-                if (!option.valueCoding.display) {
-                    option.valueCoding.display = option.valueCoding.code;
-                }
-            }
-        });
-    }
+      if ( this.questionnaireItem.option ) {
+          this.questionnaireItem.option.forEach(option => {
+              if (option.valueCoding) {
+                  if (!option.valueCoding.display) {
+                      option.valueCoding.display = option.valueCoding.code;
+                  }
+              }
+          });
+      }
 
     if ( this.questionnaireResponseItem.answer && this.questionnaireResponseItem.answer.length > 0 && this.questionnaireItem.type ) {
       const answers = this.questionnaireResponseItem.answer;
-      console.log(answers[0]);
+      // console.log(answers[0]);
       switch ( this.questionnaireItem.type ) {
         case QuestionnaireItemTypeEnum.DECIMAL:
           this.value = answers[0].valueDecimal;
@@ -59,7 +61,7 @@ export class QuestionnaireDisplayItemComponent implements OnInit {
           this.value = answers[0].valueQuantity.value;
           break;
         case QuestionnaireItemTypeEnum.BOOLEAN:
-          this.booleanValue = (answers[0].valueBoolean === 'true' ? true : false);
+          this.booleanValue =  answers[0].valueBoolean; //(answers[0].valueBoolean === 'true' ? true : false);
           break;
         case QuestionnaireItemTypeEnum.CHOICE:
           break;
@@ -75,7 +77,10 @@ export class QuestionnaireDisplayItemComponent implements OnInit {
   booleanEvent($event: MatCheckboxChange) {
       console.log(this.booleanValue);
       const answer = new QuestionnaireResponse_Answer();
-      answer.valueBoolean = ( this.booleanValue ? 'true' : 'falsë');
+      answer.valueBoolean = ( this.booleanValue ? true : false );
+      if ( !this.questionnaireResponseItem.answer ) {
+          this.questionnaireResponseItem.answer = new Array(0);
+      }
 
       if ( this.questionnaireResponseItem.answer.length === 0 ) {
         this.questionnaireResponseItem.answer.push( answer );
@@ -118,4 +123,11 @@ export class QuestionnaireDisplayItemComponent implements OnInit {
   }
 
 
+    getQuestionnaireResponseItem(questionnaireSubItem: Questionnaire_Item) {
+        let foundQri: QuestionnaireResponse_Item;
+        this.questionnaireResponseItem.item
+            .filter( questionnaireResponseSubItem => questionnaireResponseSubItem.linkId === questionnaireSubItem.linkId )
+            .forEach( questionnaireResponseSubItem => foundQri = questionnaireResponseSubItem );
+        return foundQri;
+    }
 }

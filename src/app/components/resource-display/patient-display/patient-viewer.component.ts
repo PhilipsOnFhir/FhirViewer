@@ -39,7 +39,7 @@ export class PatientViewerComponent implements OnInit {
     // this.currentPatientService.setPatient(this.patient);
     this.router.navigate([],
       { relativeTo: this.activatedRoute,
-               queryParams: { subject: this.patient.resourceType + '/' + this.patient.id },
+               queryParams: { patient: this.patient.id },
                queryParamsHandling: 'merge'
              }
       );
