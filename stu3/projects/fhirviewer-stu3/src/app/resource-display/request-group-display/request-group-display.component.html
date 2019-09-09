@@ -1,0 +1,10 @@
+<div *ngIf="requestGroup">
+  <table>
+    <tr><td>status</td><td>{{requestGroup.status}}</td></tr>
+  </table>
+  <app-annotation-display [annotations]=requestGroup.note (annotationMonitor)="annotationUpdate($event)"></app-annotation-display>
+  <div *ngFor="let actionResponse of requestGroupResponse.actionResponse">
+    <app-request-group-action-display [actionResponse]="actionResponse" (outputUpdate)="updateResult($event)" > </app-request-group-action-display>
+  </div>
+</div>
+<button mat-raised-button (click)="updateClick()">update</button>

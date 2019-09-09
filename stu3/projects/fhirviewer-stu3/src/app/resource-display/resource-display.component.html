@@ -1,0 +1,46 @@
+<div *ngIf="resource">
+  <div ngSwitch="{{format}}">
+    <div *ngSwitchCase="'short'">
+      <div ngSwitch="{{resource.resourceType}}">
+        <app-patient-display  *ngSwitchCase="'Patient'" [resource]="resource" [format]="format"></app-patient-display>
+        <app-observation-display  *ngSwitchCase="'Observation'" [resource]="resource" [format]="format"></app-observation-display>
+          <div *ngSwitchDefault>
+            <p>{{resource.resourceType}}/{{resource.id}}</p>
+          </div>
+      </div>
+    </div>
+    <div *ngSwitchCase="'perform'">
+      <div ngSwitch="{{resource.resourceType}}">
+        <app-questionnaire-display *ngSwitchCase="'Questionnaire'" [resource]="resource" [format]="'perform'" (result)="switchResource($event)"></app-questionnaire-display>
+        <div *ngSwitchDefault>
+          <app-resource-display [resource]="resource" [format]="'nice'"></app-resource-display>
+        </div>
+      </div>
+    </div>
+    <div *ngSwitchCase="'nice'">
+      <div ngSwitch="{{resource.resourceType}}">
+        <app-capability-statement-display   *ngSwitchCase="'CapabilityStatement'"   [resource]="resource" (result)="switchResource($event)"></app-capability-statement-display>
+        <app-plan-definition-display        *ngSwitchCase="'PlanDefinition'"        [resource]="resource"></app-plan-definition-display>
+    <!--    <app-activity-definition-display    *ngSwitchCase="'ActivityDefinition'"    [resource]="resource"></app-activity-definition-display>-->
+        <app-careplan-display               *ngSwitchCase="'CarePlan'"              [resource]="resource"></app-careplan-display>
+    <!--    <app-measure-display                *ngSwitchCase="'Measure'"               [resource]="resource"></app-measure-display>-->
+    <!--    <app-request-group-display          *ngSwitchCase="'RequestGroup'"          [resource]="resource"></app-request-group-display>-->
+        <app-questionnaire-response-display *ngSwitchCase="'QuestionnaireResponse'" [resource]="resource"></app-questionnaire-response-display>
+        <app-questionnaire-display *ngSwitchCase="'Questionnaire'" [resource]="resource" (result)="switchResource($event)"></app-questionnaire-display>
+        <app-observation-display   *ngSwitchCase="'Observation'"   [resource]="resource"></app-observation-display>
+        <app-patient-display       *ngSwitchCase="'Patient'"       [resource]="resource"></app-patient-display>
+        <app-bundle-display        *ngSwitchCase="'Bundle'"        [resource]="resource"></app-bundle-display>
+        <app-group-display         *ngSwitchCase="'Group'"         [resource]="resource"></app-group-display>
+        <div *ngSwitchDefault>
+          <app-generic-display [resource]="resource" (result)="switchResource($event)"></app-generic-display>
+        </div>
+      </div>
+    </div>
+    <div *ngSwitchCase="'struct'">
+      <app-generic-display [resource]="resource" (result)="switchResource($event)"></app-generic-display>
+    </div>
+    <div *ngSwitchDefault>
+      <ngx-json-viewer [json]="resource"></ngx-json-viewer>
+    </div>
+  </div>
+</div>

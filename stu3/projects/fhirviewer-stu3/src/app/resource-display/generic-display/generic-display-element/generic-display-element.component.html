@@ -1,0 +1,14 @@
+<table *ngIf="fhirElements">
+  <tr *ngFor="let a of fhirElements">
+    <td bgcolor="#EEEEEE" (click)="toggleClosed(a)"><b>{{a.name}}</b></td>
+    <td *ngIf="!a.closed && !a.isObject &&  a.isReference && !a.isHyperlink"><button mat-button (click)="openReference(a.value)">{{a.value}}</button></td>
+    <td *ngIf="!a.closed && !a.isObject && !a.isReference && !a.isHyperlink && !a.isData"><div [innerHTML]="a.value"></div></td>
+    <td *ngIf="!a.closed && !a.isObject && !a.isReference && !a.isHyperlink &&  a.isData">
+      <button mat-button (click)="toggleData(a)">Toggle</button>
+      <div *ngIf="a.isDecoded" style="white-space: pre;">{{a.decodedData}}</div>
+      <div *ngIf="!a.isDecoded" [innerHTML]="a.value"></div>
+    </td>
+    <td *ngIf="!a.closed && !a.isObject && !a.isReference && a.isHyperlink"><button mat-button (click)="openHyperlink(a.value)">{{a.value}}</button></td>
+    <td *ngIf="!a.closed && a.isObject"><app-generic-display-element [element]="a.value"></app-generic-display-element></td>
+  </tr>
+</table>

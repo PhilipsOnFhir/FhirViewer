@@ -1,0 +1,22 @@
+<mat-toolbar>
+  <mat-toolbar-row>
+    <span><b>FHIR Viewer</b></span>
+    <span class="example-fill-remaining-space"></span>
+<!--    <span>{{initialised}}</span>-->
+<!--    <span class="example-fill-remaining-space"></span>-->
+<!--    <span>{{format}}</span>-->
+<!--    <span class="example-fill-remaining-space"></span>-->
+    <mat-select class="mySelect" [(value)]="format" (selectionChange)="formatChange($event)">
+      <mat-option *ngFor="let option of formats" [value]="option">{{option}}</mat-option></mat-select>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<button *ngIf="!issSet && !initialised" (click)="selectHapi()">Selected HAPI server</button>
+
+<div *ngIf="!initialised && issSet">
+  <mat-spinner></mat-spinner>
+</div>
+
+<div *ngIf="initialised">
+  <router-outlet></router-outlet>
+</div>

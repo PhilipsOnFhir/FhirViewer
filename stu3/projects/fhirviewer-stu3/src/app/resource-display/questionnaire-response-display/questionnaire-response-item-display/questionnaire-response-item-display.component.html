@@ -1,0 +1,82 @@
+
+  <mat-card matTooltip="{{tooltip}}" matTooltipPosition="above" matTooltipClass="my-tooltip" >
+    <mat-card-content>
+    <div ngSwitch="{{questionnaireItem.type}}">
+      <div *ngSwitchCase="'decimal'">
+        <p>{{text}}</p>
+        <mat-form-field>
+          <input matInput type="number" [(ngModel)]="value" matTooltip="{{fieldTooltip}}" matTooltipClass="my-tooltip"
+                 (change)="decimalEvent($event)"
+          />
+        </mat-form-field>
+      </div>
+      <div *ngSwitchCase="'string'">
+        <mat-form-field>
+          <input matInput type="text" placeholder={{text}} [(ngModel)]="value" matTooltip="{{fieldTooltip}}"
+                 (change)="stringEvent($event)"
+          />
+        </mat-form-field>
+      </div>
+      <div *ngSwitchCase="'text'">
+        <div *ngIf="!questionnaireItem.readOnly">
+          <mat-form-field>
+            <input matInput type="text" placeholder={{text}} [(ngModel)]="value" matTooltip="{{fieldTooltip}}"
+                   (change)="stringEvent($event)"
+            />
+          </mat-form-field>
+        </div>
+        <!--<div *ngIf="questionnaireItem.readOnly">{{questionnaireResponseItem.answer}}</div>-->
+        <div *ngIf="questionnaireItem.readOnly">
+          <div *ngIf="questionnaireItem.text">{{questionnaireItem.text}} : </div>
+          <div *ngIf="questionnaireResponseItem.answer && questionnaireResponseItem.answer[0] ">{{questionnaireResponseItem.answer[0].valueString}}</div>
+        </div>
+
+      </div>
+      <div *ngSwitchCase="'date'">
+        <mat-form-field>
+          <input matInput type="date" placeholder={{text}} [(ngModel)]="value" matTooltip="{{fieldTooltip}}"
+                 (change)="stringEvent($event)"
+          />
+        </mat-form-field>
+      </div>
+      <div *ngSwitchCase="'quantity'">
+        <p>{{text}}</p>
+        <mat-form-field>
+          <input matInput type="decimal" [(ngModel)]="value" matTooltip="{{fieldTooltip}}"
+                 (change)="decimalEvent($event)"
+          />
+        </mat-form-field>
+      </div>
+      <div *ngSwitchCase="'boolean'">
+        <mat-checkbox (change)="booleanEvent($event)"  [(ngModel)] = "booleanValue" matTooltip="{{tooltip}}"
+        >{{text}}
+        </mat-checkbox>
+      </div>
+      <div *ngSwitchCase="'choice'">
+        <p>{{text}}</p>
+        <mat-form-field>
+          <mat-select *ngIf="questionnaireItem.option" style="width : 100%" matTooltip="{{fieldTooltip}}">
+            <mat-option *ngFor="let option of questionnaireItem.option"
+                        [value]="option.valueCoding.code" >
+              {{option.valueCoding.display}}
+            </mat-option>
+          </mat-select>
+          <mat-select *ngIf="!questionnaireItem.option" >
+            <mat-option *ngFor="let code of questionnaireItem.code" [value]="code.code">
+              {{code.display}}
+            </mat-option>
+          </mat-select>
+
+        </mat-form-field>
+      </div>
+      <div *ngSwitchDefault>
+        <p *ngIf="text">{{text}}</p>
+        <app-questionnaire-response-item-display *ngFor="let subItem of questionnaireItem.item"
+                                                 [questionnaireItem]="subItem"
+                                                 [questionnaireResponseItem]="getQuestionnaireResponseItem(subItem)"
+        ></app-questionnaire-response-item-display>
+      </div>
+    </div>
+    </mat-card-content>
+  </mat-card>
+<p></p>

@@ -1,0 +1,32 @@
+<div *ngIf="careplan">
+  <table>
+    <tr><td>title</td><td>{{title}}</td></tr>
+    <tr><td>status</td><td>{{status}}</td></tr>
+    <tr><td>description</td><td>{{description}}</td></tr>
+    <tr><td>subject</td><td>
+      <app-resource-display [resource]="subject" [format]="'short'"></app-resource-display>
+    </td></tr>
+    <tr><td>context</td><td>
+      <app-resource-display [resource]="context" [format]="'short'"></app-resource-display>
+    </td></tr>
+    <tr><td>definition</td><td>
+      <app-resource-display *ngFor="let res of definition" [resource]="res" [format]="'short'"></app-resource-display>
+    </td></tr>
+    <tr><td>based on</td><td>
+      <app-resource-display *ngFor="let res of basedOn" [resource]="res" [format]="'short'"></app-resource-display>
+    </td></tr>
+    <tr><td>Replaces</td><td>
+      <app-resource-display *ngFor="let res of replaces" [resource]="res" [format]="'short'"></app-resource-display>
+    </td></tr>
+  </table>
+  <mat-divider></mat-divider>
+
+  <div *ngFor="let activity of careplan.activity">
+    <mat-divider></mat-divider>
+    <app-care-plan-activity-display [activity]=activity ></app-care-plan-activity-display>
+  </div>
+  <mat-divider></mat-divider>
+  <app-annotation-display [annotations]=careplan.note (annotationMonitor)="annotationUpdate($event)"></app-annotation-display>
+
+  <button mat-raised-button (click)="updateClick()">update</button>
+</div>

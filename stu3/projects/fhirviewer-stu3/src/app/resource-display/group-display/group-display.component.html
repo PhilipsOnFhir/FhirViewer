@@ -1,0 +1,9 @@
+<div *ngIf="format==='short'">
+  <p>{{name}}</p>
+</div>
+<div *ngIf="format!=='short'">
+  <button mat-raised-button (click)="doExport()">export</button>
+  <mat-divider></mat-divider>
+  <app-generic-display [resource]="resource"></app-generic-display>
+</div>
+

@@ -1,0 +1,11 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
+
+p{
+  font: 500 14px Roboto,"Helvetica Neue",sans-serif;
+}
+
+td, th{
+  font: 500 14px Roboto,"Helvetica Neue",sans-serif;
+  padding: 4px 4px;
+}

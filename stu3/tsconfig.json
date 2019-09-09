@@ -1,0 +1,36 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2018",
+      "dom"
+    ],
+    "paths": {
+      "fhir2angular-stu3": [
+        "dist/fhir2angular-stu3"
+      ],
+      "fhir2angular-stu3/*": [
+        "dist/fhir2angular-stu3/*"
+      ],
+      "smartonfhir-stu3": [
+        "dist/smartonfhir-stu3"
+      ],
+      "smartonfhir-stu3/*": [
+        "dist/smartonfhir-stu3/*"
+      ]
+    }
+  }
+}

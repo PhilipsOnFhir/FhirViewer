@@ -1,0 +1,8 @@
+<div matTooltip="Select patient first" matTooltipPosition="after" [matTooltipDisabled]=hasPatientReference>
+  <button mat-raised-button (click)="apply()" [disabled]=!hasPatientReference>apply</button>
+</div>
+<!--<mat-spinner ></mat-spinner>-->
+<mat-progress-bar *ngIf="applying" mode="indeterminate"></mat-progress-bar>
+<mat-divider></mat-divider>
+<app-generic-display [resource]="resource"></app-generic-display>
+

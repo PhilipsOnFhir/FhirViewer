@@ -1,0 +1,7 @@
+<div *ngIf="format==='short'">
+  <p>Observation/{{observation.id}} - {{summary}}</p>
+</div>
+<div *ngIf="format!=='short'">
+  <app-generic-display [resource]="resource"></app-generic-display>
+</div>
+

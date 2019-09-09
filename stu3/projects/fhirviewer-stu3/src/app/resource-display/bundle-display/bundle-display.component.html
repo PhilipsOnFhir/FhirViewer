@@ -1,0 +1,16 @@
+<div *ngIf="resources">
+  <button mat-button (click)="doPrevious()" [disabled]="!previous">previous</button>
+  <button mat-button (click)="doNext()" [disabled]="!next">next</button>
+
+  <mat-divider></mat-divider>
+  <table>
+    <tr *ngFor="let entry of bundle.entry">
+      <td *ngIf="entry.request && entry.request.method"> {{entry.request.method}}</td>
+      <td>{{entry.resource.resourceType}}</td>
+      <td>{{entry.resource.id}}</td>
+      <td><app-resource-display [resource]=entry.resource [format]="'short'"></app-resource-display></td>
+      <td>   </td>
+      <td><button mat-raised-button (click)="openResource( entry.resource )">open</button></td>
+    </tr>
+  </table>
+</div>

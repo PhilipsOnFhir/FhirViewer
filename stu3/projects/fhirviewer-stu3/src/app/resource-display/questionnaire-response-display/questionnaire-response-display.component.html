@@ -1,0 +1,37 @@
+<div *ngIf="questionnaire">
+  <h2>{{title}}</h2>
+  <p *ngIf="questionnaire.description"><markdown ngPreserveWhitespaces [data] = questionnaire.description></markdown></p>
+  <p *ngIf="questionnaire.purpose"><markdown ngPreserveWhitespaces [data] = questionnaire.purpose></markdown></p>
+  <p *ngIf="questionnaire.copyright"><markdown ngPreserveWhitespaces [data] = questionnaire.copyright></markdown></p>
+<!--  <p *ngIf="questionnaireResponse.subject">{{questionnaireResponse.subject.reference}}</p>-->
+  <table>
+    <tr>
+      <td>status</td><td>{{questionnaire.status}}</td>
+    </tr>
+  </table>
+  <mat-divider></mat-divider>
+  <mat-card>
+      <app-questionnaire-response-item-display *ngFor="let itemData of itemDatas"
+                                      [questionnaireResponseItem]="itemData.questionnaireResponseItem"
+                                      [questionnaireItem]="itemData.questionnaireItem"
+                                      (update)="updateValue($event)">
+      </app-questionnaire-response-item-display>
+  </mat-card>
+  <mat-divider></mat-divider>
+
+  <div *ngIf="questionnaire.extension">
+    <!--<button mat-button [disabled]="isRetrieving()" (click)="performTransforms()">Transform</button>-->
+    <table >
+      <tr *ngFor="let es of extSm" >
+        <td *ngIf="es.extension.url === 'http://hl7.org/fhir/StructureDefinition/questionnaire-targetStructureMap'">{{es.extension.valueReference.reference}}</td>
+        <td *ngIf="es.extension.url === 'http://hl7.org/fhir/StructureDefinition/questionnaire-targetStructureMap' && es.retrieveActive ">
+          <mat-spinner *ngIf="es.retrieveActive" [diameter]="30"></mat-spinner>
+        </td>
+        <td *ngIf="es.extension.url === 'http://hl7.org/fhir/StructureDefinition/questionnaire-targetStructureMap' && !es.retrieveActive && es.resource">
+          <button mat-button (click)="switchResource(es.resource)"><app-resource-display [resource]="es.resource" [format]="'short'" ></app-resource-display></button>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+</div>

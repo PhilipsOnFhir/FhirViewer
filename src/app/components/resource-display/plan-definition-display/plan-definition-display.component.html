@@ -1,9 +1,0 @@
-<h2>{{title}}</h2>
-<div matTooltip="Select patient first" matTooltipPosition="after" [matTooltipDisabled]=hasCurrentPatient>
-  <button mat-raised-button (click)="apply()" [disabled]=!hasCurrentPatient>apply</button>
-</div>
-<mat-progress-bar *ngIf="applying" mode="indeterminate"></mat-progress-bar>
-<app-operation-outcome-display *ngIf="operationOutcome!=null" [resource]="operationOutcome"></app-operation-outcome-display>
-<mat-divider></mat-divider>
-<app-generic-display [resource]="resource"></app-generic-display>
-

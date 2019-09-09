@@ -1,0 +1,6 @@
+<app-resource-display *ngIf="resource" [resource]="resource" [format]="format"></app-resource-display>
+<!--<ngx-json-viewer [json]="resource"></ngx-json-viewer>-->
+<div *ngIf="!resource && !error">
+  <mat-spinner></mat-spinner>
+</div>
+<p *ngIf="error">Resource could not be loaded</p>
