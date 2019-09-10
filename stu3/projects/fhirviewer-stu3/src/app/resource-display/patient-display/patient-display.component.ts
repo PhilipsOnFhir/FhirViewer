@@ -26,12 +26,12 @@ export class PatientDisplayComponent implements OnInit {
   ngOnInit() {
     this.patient = this.resource as Patient;
     this.name    = PatientUtil.getPreferredName(this.patient);
-    this.sofs.supportsResourceOperation( ResourceTypeEnum.PATIENT, "export").subscribe(
-      found => this.everythingPresent =found
-    );
-    this.sofs.supportsResourceOperation( ResourceTypeEnum.PATIENT, "everything").subscribe(
-      found => this.exportPresent =found
-    );
+    // this.sofs.supportsResourceOperation( ResourceTypeEnum.PATIENT, "export").subscribe(
+    //   found => this.everythingPresent =found
+    // );
+    // this.sofs.supportsResourceOperation( ResourceTypeEnum.PATIENT, "everything").subscribe(
+    //   found => this.exportPresent =found
+    // );
   }
 
   doExport() {

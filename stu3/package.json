@@ -4,7 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start fhirviewer": "ng serve fhirviewer-stu3 --port 4333",
-    "build": "ng build fhirviewer-stu3",
+    "build fhirviewer-stu3": "ng build fhirviewer-stu3",
+    "build fhir2angular-stu3": "ng build fhir2angular-stu3",
     "lint": "ng lint fhirviewer-stu3",
     "e2e": "ng e2e fhirviewer-stu3"
   },

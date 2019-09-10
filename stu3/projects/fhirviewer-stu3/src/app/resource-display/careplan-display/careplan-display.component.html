@@ -4,7 +4,7 @@
     <tr><td>status</td><td>{{status}}</td></tr>
     <tr><td>description</td><td>{{description}}</td></tr>
     <tr><td>subject</td><td>
-      <app-resource-display [resource]="subject" [format]="'short'"></app-resource-display>
+      <app-resource-display *ngIf="resource" [resource]="subject" [format]="'short'"></app-resource-display>
     </td></tr>
     <tr><td>context</td><td>
       <app-resource-display [resource]="context" [format]="'short'"></app-resource-display>

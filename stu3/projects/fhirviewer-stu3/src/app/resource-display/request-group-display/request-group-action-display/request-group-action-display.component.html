@@ -1,19 +1,15 @@
-<mat-accordion *ngIf="actionResponse && action">
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        {{title}}
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <!--<p *ngIf="actionResponse.getTitle().length>0"><b>{{actionResponse.getTitle()}}</b></p>-->
+<mat-card *ngIf="actionResponse && action">
+  <mat-card-subtitle>
+    {{title}}
+  </mat-card-subtitle>
+  <mat-card-content *ngIf="action">
     <p *ngIf="action.description">{{action.description}}</p>
-
     <p *ngIf="action.textEquivalent">{{action.textEquivalent}}</p>
 
     <!--Show resources-->
     <table>
       <td> <div *ngIf=(action.type)>{{getTypeDescription()}}</div> </td>
-      <td> <app-resource-display *ngIf="resource" [resource]=resource ></app-resource-display> </td>
+      <td> <app-resource-display *ngIf="resource" [resource]=resource [format]="'short'"></app-resource-display> </td>
     </table>
 
     <!--&lt;!&ndash;Checkbox&ndash;&gt;-->
@@ -70,5 +66,5 @@
         </tr>
       </table>
     </div>
-  </mat-expansion-panel>
-</mat-accordion>
+  </mat-card-content>
+</mat-card>

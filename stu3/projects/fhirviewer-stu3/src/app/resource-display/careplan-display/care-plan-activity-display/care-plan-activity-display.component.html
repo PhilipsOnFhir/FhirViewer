@@ -1,45 +1,47 @@
 <div *ngIf="activity">
-  <mat-expansion-panel [expanded]="1===1">
-    <mat-expansion-panel-header >
-      <mat-panel-title>
-        <b>Activity</b>
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <!--<annotation></annotation>-->
-    <table>
-      <tr><td>status</td><td>{{status}}</td></tr>
-      <tr *ngIf="activity.detail && activity.detail.code"><td>detail</td><td>{{activity.detail.code.coding[0].display}}</td></tr>
-    </table>
+  <mat-card>
+    <mat-card-subtitle>
+      Activity
+    </mat-card-subtitle>
+    <mat-card-content>
+      <!--<annotation></annotation>-->
+      <table>
+        <tr><td>status</td><td>{{status}}</td></tr>
+        <tr *ngIf="activity.detail && activity.detail.code"><td>detail</td><td>{{activity.detail.code.coding[0].display}}</td></tr>
+      </table>
 
-    <div *ngIf="activity.outcomeReference">
-      <h4>Outcome</h4>
-      <app-resource-display *ngFor="let outCR of outcomes" [resource]=outCR ></app-resource-display>
-      <!--<app-resource-viewer *ngFor="let outCR of activity.outcomeReference" [resource]=outCR></app-resource-viewer>-->
-    </div>
-    <mat-divider></mat-divider>
-    <p></p>
-    <div *ngIf="referencedResource">
+      <div *ngIf="activity.outcomeReference">
+        <h4>Outcome</h4>
+        <app-resource-display *ngFor="let outCR of outcomes" [resource]=outCR ></app-resource-display>
+        <!--<app-resource-viewer *ngFor="let outCR of activity.outcomeReference" [resource]=outCR></app-resource-viewer>-->
+      </div>
+      <mat-divider></mat-divider>
+      <p></p>
+      <div *ngIf="referencedResource">
       <h4>References</h4>
       <div ngSwitch="{{referencedResource.resourceType}}">
         <div *ngSwitchCase="'RequestGroup'">
-          <mat-expansion-panel>
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                <b>{{referencedResource.resourceType}} : </b>
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-            <app-request-group-display
-              *ngSwitchCase="'RequestGroup'"
-              [resource]="referencedResource"
-              (outputUpdate)="updateResult($event)"
-            ></app-request-group-display>
-          </mat-expansion-panel>
+          <mat-card>
+            <mat-card-subtitle>
+              <b>{{referencedResource.resourceType}} : </b>
+            </mat-card-subtitle>
+            <mat-card-content>
+              <app-request-group-display
+                *ngSwitchCase="'RequestGroup'"
+                [resource]="referencedResource"
+                (outputUpdate)="updateResult($event)"
+                (update)="update($event)"
+              ></app-request-group-display>
+            </mat-card-content>
+          </mat-card>
         </div>
         <div *ngSwitchDefault>
-          <app-resource-display [resource]=referencedResource (outputUpdate)="updateResult($event)" ></app-resource-display>
+          <app-resource-display [resource]=referencedResource (update)="update($event)" ></app-resource-display>
         </div>
         <!--(outputUpdate)="updateResult($event)"-->
       </div>
     </div>
-  </mat-expansion-panel>
+    </mat-card-content>
+
+  </mat-card>
 </div>

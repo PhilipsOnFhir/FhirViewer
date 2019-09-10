@@ -6,7 +6,9 @@ export class ResourceUtil {
 
   static getSummary( domainResource: DomainResource): string {
     let summary: string = "Unknown";
-
+    if ( !domainResource ) {
+      return summary;
+    }
     switch ( domainResource.resourceType) {
       case Patient.def:
         summary = PatientUtil.getPreferredName( domainResource as Patient);
